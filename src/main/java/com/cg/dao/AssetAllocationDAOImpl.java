@@ -1,5 +1,6 @@
 package com.cg.dao;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -14,76 +15,108 @@ public class AssetAllocationDAOImpl implements AssetAllocationDAO {
 
 	AssetAllocation assetAllocation = new AssetAllocation();
 	Asset asset;
-	
+
 	public AssetAllocationDAOImpl() {
-		
+
 		assetAllocation.setAllocationId(1205);
-		
+
 		asset = new Asset();
 		asset.setAssetId(101);
 		asset.setAssetName("Laptops");
 		asset.setAssetDes("laptops required for additional interns");
 		asset.setStatus("allocated");
-		
+
 		assetAllocation.setAssetId(asset.getAssetId());
 		assetAllocation.setAsset(asset);
-		
+
 		Employee employee = new Employee();
 		employee.setDepartment("Networks");
 		employee.setEmpName("Mayuresh");
 		employee.setEmpNo(2344);
 		assetAllocation.setEmployee(employee);
-		
+
 		assetAllocation.setStatus("pending");
 		assetAllocation.setRemark("scrambling resources");
-		
-		System.out.println(assetAllocation.getAsset().getAssetName());
+
+		AssetAllocation alloc2 = new AssetAllocation();
+
+		 alloc2.setAllocationId(488);
+
+		Asset asset1 = new Asset();
+		asset1.setAssetId(101);
+		asset1.setAssetName("Desktops");
+		asset1.setAssetDes("laptops required for additional interns");
+		asset1.setStatus("allocated");
+
+		alloc2.setAssetId(asset1.getAssetId());
+		alloc2.setAsset(asset1);
+
+		Employee employee1 = new Employee();
+		employee1.setDepartment("Networks");
+		employee1.setEmpName("Mayuresh");
+		employee1.setEmpNo(2344);
+		alloc2.setEmployee(employee1);
+
+		alloc2.setStatus("pending");
+		alloc2.setRemark("scrambling resources");
 		
 		allocations.put(assetAllocation.getAllocationId(), assetAllocation);
+		allocations.put(alloc2.getAllocationId(), alloc2);
 	}
 
 	@Override
 	public void changeStatus(int assetId, String status, String remark) {
 		Asset asset;
-		for(int key : allocations.keySet()) {
+		for (int key : allocations.keySet()) {
 			assetAllocation = allocations.get(key);
 			asset = assetAllocation.getAsset();
-			if(asset.getAssetId() == assetId) {
+
+			if (asset.getAssetId() == assetId) {
 				assetAllocation.setStatus(status);
 				assetAllocation.setRemark(remark);
-				if(remark.equals("rejected"))
-					asset.setStatus("unallocatepd");
 				assetAllocation.setAsset(asset);
 				allocations.replace(key, assetAllocation);
+			
+				assetAllocation = allocations.get(key);
+				asset = assetAllocation.getAsset();
+
 			}
 		}
-		
-		System.out.println(this.assetAllocation.getStatus());
-		System.out.println(assetAllocation.getAsset().getStatus());
+
 	}
 
 	@Override
-	public AssetAllocation request(AssetAllocation assetAllocation) {
-		// TODO Auto-generated method stub
-		return null;
+	public void request(AssetAllocation assetAllocation) {
+		allocations.put(assetAllocation.getAsset().getAssetId(), assetAllocation);
 	}
 
 	@Override
 	public AssetAllocation findById(int allocationId) {
-		// TODO Auto-generated method stub
-		return null;
+		return allocations.get(allocationId);
 	}
 
 	@Override
 	public List<AssetAllocation> findAll() {
-		// TODO Auto-generated method stub
-		return null;
+		
+		List<AssetAllocation> assetAllocations = new ArrayList<>();
+		
+		for(int key: allocations.keySet()) {
+			
+			assetAllocations.add(allocations.get(key));
+		}
+		
+		return assetAllocations;
 	}
 
 	@Override
 	public List<AssetAllocation> findPending() {
-		// TODO Auto-generated method stub
-		return null;
+		List<AssetAllocation> pending = new ArrayList<>();
+		for(int key : allocations.keySet()) {
+			if(allocations.get(key).getStatus().equals("pending")) {
+				pending.add(allocations.get(key));
+			}
+		}
+		return pending;
 	}
 
 }
