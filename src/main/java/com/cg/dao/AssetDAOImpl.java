@@ -5,12 +5,6 @@ import java.io.IOException;
 import java.io.Writer;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Map.Entry;
-
-import javax.swing.text.html.HTMLDocument.Iterator;
-
-import org.junit.Test;
-
 import com.cg.bean.Asset;
 
 public class AssetDAOImpl implements AssetDAO {
@@ -72,16 +66,17 @@ public class AssetDAOImpl implements AssetDAO {
 	public Asset updateAsset(int assetId, String assetName, String assetDes, String status)
 			throws IllegalArgumentException {
 
+		asset = new Asset();
+
 		if (!status.equals("allocated") && !status.equals("unallocated"))
 			throw new IllegalArgumentException("status can be allocated and unallocated.");
 
 		asset.setAssetId(assetId);
 		asset.setAssetName(assetName);
 		asset.setAssetDes(assetDes);
-		// asset.setQuantity(quantity);
 		asset.setStatus(status);
 
-		assets.replace(assetId, asset);
+		assets.put(assetId, asset);
 
 		return asset;
 
@@ -99,24 +94,23 @@ public class AssetDAOImpl implements AssetDAO {
 						+ asset.getStatus());
 
 		}
-		
-		 System.out.println("\nUNALLOCATED ASSETS\n");
-		  System.out.println("AssetID\tAssetName\tAssetDes\tAssetStatus"); for (Integer
-		  key1 : assets.keySet()) {
-		  
-		  asset = assets.get(key1); 
-		   if (asset.getStatus().equals("unallocated"))
-		  System.out.println(asset.getAssetId() + "\t" + asset.getAssetName() + "\t\t"
-		 + asset.getAssetDes() + "\t" + asset.getStatus());
-		  
-		  }
-		  
-		
+
+		System.out.println("\nUNALLOCATED ASSETS\n");
+		System.out.println("AssetID\tAssetName\tAssetDes\tAssetStatus");
+		for (Integer key1 : assets.keySet()) {
+
+			asset = assets.get(key1);
+			if (asset.getStatus().equals("unallocated"))
+				System.out.println(asset.getAssetId() + "\t" + asset.getAssetName() + "\t\t" + asset.getAssetDes()
+						+ "\t" + asset.getStatus());
+
+		}
+
 	}
 
 	public void export(String fileName) throws IOException {
 		Writer write = new FileWriter(fileName + ".csv", true);
-		write.write("AssetId,AssetName,AssetDes,AssetQty,AssetType\n");
+		write.write("AssetId,AssetName,AssetDes,AssetStatus\n");
 		for (Integer key : assets.keySet()) {
 			asset = assets.get(key);
 			write.write(key + "," + asset.getAssetName() + "," + asset.getAssetDes() + "," + asset.getStatus() + "\n");

@@ -9,6 +9,8 @@ import com.cg.bean.Employee;
 import com.cg.bean.User;
 import com.cg.service.AssetAllocationService;
 import com.cg.service.AssetAllocationServiceImpl;
+import com.cg.service.AssetService;
+import com.cg.service.AssetServiceImpl;
 import com.cg.service.EmployeeService;
 import com.cg.service.EmployeeServiceImpl;
 import com.cg.service.UserService;
@@ -20,6 +22,7 @@ public class Client {
 	// private static User user;
 	private static Asset asset;
 	private static UserService user;
+	private static AssetService assetService;
 	private static AssetAllocationService assetAllocationService;
 	private static AssetAllocation assetAllocation;
 	private static Employee employee;
@@ -32,6 +35,7 @@ public class Client {
 		scanner = new Scanner(System.in);
 		user = new UserServiceImpl();
 		assetAllocationService = new AssetAllocationServiceImpl();
+		assetService = new AssetServiceImpl();
 		employeeService = new EmployeeServiceImpl();
 
 		do {
@@ -62,39 +66,43 @@ public class Client {
 					System.out.println("2. Update Asset");
 					System.out.println("3. View Assets");
 					System.out.println("4. Export");
-					System.out.println("5. Log Out");
+					System.out.println("5. View Asset Requests");
+					System.out.println("6. View Pending");
+					System.out.println("7. Change status(Approve/deny)");
+					System.out.println("8. Log Out");
 					System.out.println("Enter choice");
 					int ch = scanner.nextInt();
 					switch (ch) {
 					case 1: // Add asset
 
-						/*
-						 * System.out.
-						 * println("Enter asset id, asset name, asset des, asset qty and asset status:"
-						 * ); asset = ads.addAsset(scanner.nextInt(), scanner.next(), scanner.next(),
-						 * scanner.nextInt(), scanner.next()); System.out.println("Asset added: ");
-						 */
+						System.out.println("Enter asset id, asset name, asset des, and asset status:");
+						asset = assetService.addAsset(scanner.nextInt(), scanner.next(), scanner.next(),
+								scanner.next());
+						System.out.println("Asset added: ");
 						break;
 
 					case 2: // Update asset
-						/*
-						 * AdminService ads1 = new AdminServiceImpl(); int key;
-						 * System.out.println("Enter assetId to update: "); key = scanner.nextInt();
-						 * asset = ads1.updateAsset(key, scanner.next(), scanner.next(),
-						 * scanner.nextInt(), scanner.next()); if (asset.getAssetId() == key)
-						 * System.out.println("Asset Updated"); break;
-						 */
-					case 3: // Requests
-						// ads.viewAllocatedAssets();
+						int key;
+						System.out.println("Enter assetId to update: ");
+						key = scanner.nextInt();
+						asset = assetService.updateAsset(key, scanner.next(), scanner.next(), scanner.next());
+						if (asset.getAssetId() == key)
+							System.out.println("Asset Updated");
+						break;
+					case 3: // ViewAssets
+						assetService.viewAllAssets();
 						break;
 
 					case 4: // Export
 						System.out.println("Enter file name: ");
-						// ads.export(scanner.next());
+						assetService.export(scanner.next());
 						break;
 
-					case 5: // LogOut
-						break admin;
+					case 5: // View requests
+						assetAllocationService.findAll();
+					
+					case 6: // View Pending
+						
 					default:
 						break;
 					}
@@ -143,11 +151,6 @@ public class Client {
 
 						asset = assetAllocation.getAsset();
 
-						/*
-						 * private int assetId; private Employee employee; private Asset asset; private
-						 * String status; private String remark;
-						 */
-
 						assetAllocationService.request(assetAllocation);
 						break;
 					case 2: // View status
@@ -181,19 +184,19 @@ public class Client {
 						}
 
 						break;
-					case 4:	//View all employees
+					case 4: // View all employees
 						employeeService.viewAllEmployees();
 						break;
-					case 5:	//Add Employee
+					case 5: // Add Employee
 						System.out.println("Enter Employee Id,Name and Department: ");
 						employee = employeeService.addEmp(scanner.nextInt(), scanner.next(), scanner.next());
-						System.out.println("Employee added. Name: "+employee.getEmpName());
+						System.out.println("Employee added. Name: " + employee.getEmpName());
 						break;
-					case 6:	//Check employee
-						if(employeeService.exists(scanner.nextInt()))
+					case 6: // Check employee
+						if (employeeService.exists(scanner.nextInt()))
 							System.out.println("Employee Exists");
 						break;
-					case 7:	//Log Out
+					case 7: // Log Out
 						break manager;
 					default:
 						break;
