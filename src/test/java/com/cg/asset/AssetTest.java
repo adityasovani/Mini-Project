@@ -23,7 +23,7 @@ public class AssetTest {
 
 		asset = assetdao.updateAsset(101, "Desktop", "for high speed computing", "unallocated");
 		assertEquals(asset.getAssetName(), "Desktop");
-
+		assetdao.viewAllAssets();
 	}
 
 	@Test
@@ -52,6 +52,5 @@ public class AssetTest {
 
 		ast = assetdao.addAsset(158, "Routers", "for faster speed", "unallocated");
 		assertEquals(ast.getAssetName(), "Routers");
-		assetdao.viewAllAssets();
 	}
 }

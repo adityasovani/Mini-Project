@@ -49,15 +49,13 @@ public class EmployeeDaoImpl implements EmployeeDao {
 		for (Integer key : employees.keySet()) {
 
 			employee = employees.get(key);
-			// if (asset.getStatus().equals("allocated")) {
 			System.out.println(employee.getEmpNo() + "\t" + employee.getEmpName() + "\t" + employee.getDepartment());
-			// }
 
 		}
 	}
 
 	public boolean exists(int empId) {
-		return employees.get(empId) != null ;
+		return employees.get(empId) instanceof Employee;
 	}
 
 }

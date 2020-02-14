@@ -47,15 +47,12 @@ public class AssetDAOImpl implements AssetDAO {
 
 		asset = new Asset();
 
-		Map<Integer, Asset> assets = new HashMap<Integer, Asset>();
-
 		if (!status.equals("allocated") && !status.equals("unallocated"))
 			throw new IllegalArgumentException("status can be allocated and unallocated.");
 
 		asset.setAssetDes(assetDes);
 		asset.setAssetId(assetId);
 		asset.setAssetName(assetName);
-		// asset.setQuantity(quantity);
 		asset.setStatus(status);
 
 		assets.put(assetId, asset);
@@ -84,8 +81,10 @@ public class AssetDAOImpl implements AssetDAO {
 
 	public void viewAllAssets() {
 		asset = new Asset();
+		
 		System.out.println("ALLOCATED ASSETS\n");
 		System.out.println("AssetID\tAssetName\tAssetDes\tAssetStatus");
+		
 		for (Integer key : assets.keySet()) {
 
 			asset = assets.get(key);
@@ -97,6 +96,7 @@ public class AssetDAOImpl implements AssetDAO {
 
 		System.out.println("\nUNALLOCATED ASSETS\n");
 		System.out.println("AssetID\tAssetName\tAssetDes\tAssetStatus");
+		
 		for (Integer key1 : assets.keySet()) {
 
 			asset = assets.get(key1);

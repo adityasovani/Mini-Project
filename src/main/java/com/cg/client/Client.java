@@ -19,7 +19,6 @@ import com.cg.service.UserServiceImpl;
 public class Client {
 
 	private static Scanner scanner;
-	// private static User user;
 	private static Asset asset;
 	private static UserService user;
 	private static AssetService assetService;
@@ -74,7 +73,7 @@ public class Client {
 					int ch = scanner.nextInt();
 					switch (ch) {
 					case 1: // Add asset
-
+						//assetService = new AssetServiceImpl();
 						System.out.println("Enter asset id, asset name, asset des, and asset status:");
 						asset = assetService.addAsset(scanner.nextInt(), scanner.next(), scanner.next(),
 								scanner.next());
@@ -99,10 +98,15 @@ public class Client {
 						break;
 
 					case 5: // View requests
+						assetAllocationService = new AssetAllocationServiceImpl();
 						assetAllocationService.findAll();
 					
 					case 6: // View Pending
+						assetAllocationService.findPending();
+					case 7:	//Change status
 						
+					case 8:	// Log out
+						break admin;
 					default:
 						break;
 					}
