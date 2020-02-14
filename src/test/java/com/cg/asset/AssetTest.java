@@ -10,6 +10,7 @@ import org.junit.Test;
 import com.cg.bean.Asset;
 import com.cg.dao.AssetDAO;
 import com.cg.dao.AssetDAOImpl;
+import com.cg.exception.AssetException;
 
 public class AssetTest {
 
@@ -45,12 +46,14 @@ public class AssetTest {
 
 	@Test
 	public void testAdd() {
-
 		assetdao = new AssetDAOImpl();
-
-		Asset ast;
-
-		ast = assetdao.addAsset(158, "Routers", "for faster speed", "unallocated");
+		Asset ast = assetdao.addAsset(158, "Routers", "for faster speed", "unallocated");
 		assertEquals(ast.getAssetName(), "Routers");
+	}
+	
+	@Test
+	public void testGetAssetbyId() throws AssetException {
+		assetdao = new AssetDAOImpl();
+		assertEquals("Laptops", assetdao.getAssetById(101).getAssetName());
 	}
 }

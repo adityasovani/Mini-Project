@@ -6,6 +6,7 @@ import java.io.Writer;
 import java.util.HashMap;
 import java.util.Map;
 import com.cg.bean.Asset;
+import com.cg.exception.AssetException;
 
 public class AssetDAOImpl implements AssetDAO {
 
@@ -118,6 +119,14 @@ public class AssetDAOImpl implements AssetDAO {
 
 		write.close();
 
+	}
+
+	@Override
+	public Asset getAssetById(int assetId) throws AssetException {
+		if(assets.get(assetId) instanceof Asset)
+			return assets.get(assetId);
+		else
+			throw new AssetException("Asset Does not Exist");
 	}
 
 }

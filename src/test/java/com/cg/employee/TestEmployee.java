@@ -12,7 +12,6 @@ import com.cg.exception.EmployeeException;
 public class TestEmployee {
 
 	EmployeeDao employeeDao = new EmployeeDaoImpl();
-
 	Employee employee = employeeDao.addEmp(104, "Sameer", "Statistics");
 
 	@Test
@@ -27,5 +26,18 @@ public class TestEmployee {
 	public void addEmployeeTest() {
 		Employee employee = employeeDao.addEmp(79, "Ratan", "BI");
 		assertEquals(employee.getEmpName(), "Ratan");
+	}
+	
+	@Test
+	//Check getEmployeeById
+	public void testGetEmployeeById() throws EmployeeException {
+		Employee employee = employeeDao.getEmployeeById(104);
+		assertEquals("Sameer", employee.getEmpName());
+	}
+	
+	@Test(expected = EmployeeException.class)
+	//Check employeeException of getEmployeeById
+	public void checkExceptionGetById() throws EmployeeException {
+		Employee employee = employeeDao.getEmployeeById(903);
 	}
 }

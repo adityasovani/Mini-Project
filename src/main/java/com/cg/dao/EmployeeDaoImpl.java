@@ -3,6 +3,7 @@ package com.cg.dao;
 import java.util.HashMap;
 import java.util.Map;
 import com.cg.bean.Employee;
+import com.cg.exception.EmployeeException;
 
 public class EmployeeDaoImpl implements EmployeeDao {
 
@@ -56,6 +57,15 @@ public class EmployeeDaoImpl implements EmployeeDao {
 
 	public boolean exists(int empId) {
 		return employees.get(empId) instanceof Employee;
+	}
+
+	@Override
+	public Employee getEmployeeById(int employeeId) throws EmployeeException {
+		
+		if(exists(employeeId))
+			return employees.get(employeeId);
+		else
+			throw new EmployeeException();
 	}
 
 }

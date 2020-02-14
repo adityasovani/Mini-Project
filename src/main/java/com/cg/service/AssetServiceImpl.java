@@ -5,6 +5,7 @@ import java.io.IOException;
 import com.cg.bean.Asset;
 import com.cg.dao.AssetDAO;
 import com.cg.dao.AssetDAOImpl;
+import com.cg.exception.AssetException;
 
 public class AssetServiceImpl implements AssetService{
 
@@ -28,5 +29,10 @@ public class AssetServiceImpl implements AssetService{
 	@Override
 	public void export(String fileName) throws IOException {
 		assetDao.export(fileName);
+	}
+
+	@Override
+	public Asset getAssetById(int assetId) throws AssetException {
+		return assetDao.getAssetById(assetId);
 	}
 }

@@ -3,6 +3,7 @@ package com.cg.service;
 import com.cg.bean.Employee;
 import com.cg.dao.EmployeeDao;
 import com.cg.dao.EmployeeDaoImpl;
+import com.cg.exception.EmployeeException;
 
 public class EmployeeServiceImpl implements EmployeeService{
 
@@ -21,6 +22,11 @@ public class EmployeeServiceImpl implements EmployeeService{
 	@Override
 	public void viewAllEmployees() {
 		employeeDao.viewAllEmployees();
+	}
+
+	@Override
+	public Employee getEmployeeById(int employeeId) throws EmployeeException {
+		return employeeDao.getEmployeeById(employeeId);
 	}
 
 }
