@@ -66,22 +66,14 @@ public class AssetAllocationDAOImpl implements AssetAllocationDAO {
 
 	public void changeStatus(int assetId, String status, String remark) {
 		Asset asset;
-		for (int key : allocations.keySet()) {
-			assetAllocation = allocations.get(key);
-			asset = assetAllocation.getAsset();
-
-			if (asset.getAssetId() == assetId) {
-				assetAllocation.setStatus(status);
-				assetAllocation.setRemark(remark);
-				assetAllocation.setAsset(asset);
-				allocations.replace(key, assetAllocation);
-			
-				assetAllocation = allocations.get(key);
-				asset = assetAllocation.getAsset();
-
-			}
-		}
-
+		
+		assetAllocation = allocations.get(assetId);
+		
+		assetAllocation.setStatus(status);
+		assetAllocation.setRemark(remark);
+		
+		allocations.put(assetId, assetAllocation);
+		System.out.println(allocations.get(assetId).getStatus());
 	}
 
 	public void request(AssetAllocation assetAllocation) {

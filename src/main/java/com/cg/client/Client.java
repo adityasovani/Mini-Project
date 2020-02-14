@@ -120,7 +120,9 @@ public class Client {
 						assetAllocationService.findPending();
 						break;
 					case 7: // Change status
-
+						System.out.println("Enter AllocationId, Status and Remark");
+						assetAllocationService.changeStatus(scanner.nextInt(), scanner.next(), scanner.next());
+						break;
 					case 8: // Log out
 						System.out.println("Log Out");
 						break admin;
