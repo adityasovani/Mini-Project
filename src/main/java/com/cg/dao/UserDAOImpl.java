@@ -29,7 +29,6 @@ public class UserDAOImpl implements UserDAO {
 		users.put(user1.getUserId(), user1);
 	}
 
-	@Override
 	public User login(String userName, String userPassWord) throws UserException {
 		boolean found = false;
 

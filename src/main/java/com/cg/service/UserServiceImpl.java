@@ -9,7 +9,6 @@ public class UserServiceImpl implements UserService{
 
 	UserDAO userDAO = new UserDAOImpl();
 	
-	@Override
 	public User login(String userName, String passWord) throws UserException {
 		return userDAO.login(userName, passWord);
 	}

@@ -64,7 +64,6 @@ public class AssetAllocationDAOImpl implements AssetAllocationDAO {
 		allocations.put(alloc2.getAllocationId(), alloc2);
 	}
 
-	@Override
 	public void changeStatus(int assetId, String status, String remark) {
 		Asset asset;
 		for (int key : allocations.keySet()) {
@@ -85,20 +84,17 @@ public class AssetAllocationDAOImpl implements AssetAllocationDAO {
 
 	}
 
-	@Override
 	public void request(AssetAllocation assetAllocation) {
 		allocations.put(assetAllocation.getAsset().getAssetId(), assetAllocation);
 	}
 
-	@Override
 	public AssetAllocation findById(int allocationId) {
 		return allocations.get(allocationId);
 	}
 
-	@Override
 	public List<AssetAllocation> findAll() {
 		
-		List<AssetAllocation> assetAllocations = new ArrayList<>();
+		List<AssetAllocation> assetAllocations = new ArrayList<AssetAllocation>();
 		
 		for(int key: allocations.keySet()) {
 			
@@ -108,9 +104,8 @@ public class AssetAllocationDAOImpl implements AssetAllocationDAO {
 		return assetAllocations;
 	}
 
-	@Override
 	public List<AssetAllocation> findPending() {
-		List<AssetAllocation> pending = new ArrayList<>();
+		List<AssetAllocation> pending = new ArrayList<AssetAllocation>();
 		for(int key : allocations.keySet()) {
 			if(allocations.get(key).getStatus().equals("pending")) {
 				pending.add(allocations.get(key));

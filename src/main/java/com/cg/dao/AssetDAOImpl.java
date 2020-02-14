@@ -121,7 +121,6 @@ public class AssetDAOImpl implements AssetDAO {
 
 	}
 
-	@Override
 	public Asset getAssetById(int assetId) throws AssetException {
 		if(assets.get(assetId) instanceof Asset)
 			return assets.get(assetId);

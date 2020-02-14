@@ -144,7 +144,6 @@ public class Client {
 					int ch = scanner.nextInt();
 					switch (ch) {
 					case 1: // Raise Request
-						assetAllocationService = new AssetAllocationServiceImpl();
 						
 						assetAllocation = new AssetAllocation();
 
@@ -169,16 +168,17 @@ public class Client {
 						
 					case 2: // View status
 						System.out.println("Enter Allocation id to locate: ");
-						assetAllocation = assetAllocationService.findById(scanner.nextInt());
-						System.out.println("---------------------------");
-						System.out.println("AllocationID: " + assetAllocation.getAllocationId());
-						System.out.println("AssetId: " + assetAllocation.getAsset().getAssetId());
-						System.out.println("AssetName: " + assetAllocation.getAsset().getAssetName());
-						System.out.println("AssetDes" + assetAllocation.getAsset().getAssetDes());
-						System.out.println("Employee Number" + assetAllocation.getEmployee().getEmpNo());
-						System.out.println("Employee Name" + assetAllocation.getEmployee().getEmpName());
-						System.out.println("Request status: " + assetAllocation.getStatus());
-						System.out.println("Remark: " + assetAllocation.getRemark());
+						int keyFind = scanner.nextInt();
+						System.out.println( assetAllocationService.findById(keyFind));
+						/*System.out.println("---------------------------");
+						System.out.println("AllocationID: " + asaloc.getAllocationId());
+						System.out.println("AssetId: " + asaloc.getAsset().getAssetId());
+						System.out.println("AssetName: " + asaloc.getAsset().getAssetName());
+						System.out.println("AssetDes" + asaloc.getAsset().getAssetDes());
+						System.out.println("Employee Number" + asaloc.getEmployee().getEmpNo());
+						System.out.println("Employee Name" + asaloc.getEmployee().getEmpName());
+						System.out.println("Request status: " + asaloc.getStatus());
+						System.out.println("Remark: " + asaloc.getRemark());*/
 						System.out.println("---------------------------");
 						break;
 					case 3: // View All Request
@@ -202,7 +202,7 @@ public class Client {
 						employeeService.viewAllEmployees();
 						break;
 					case 5: // Add Employee
-						System.out.println("Enter Employee Id,Name and Department: ");
+						System.out.println("Enter Employee Id, Name and Department: ");
 						employee = employeeService.addEmp(scanner.nextInt(), scanner.next(), scanner.next());
 						System.out.println("Employee added. Name: " + employee.getEmpName());
 						break;
