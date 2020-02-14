@@ -1,0 +1,5 @@
+AssetId,AssetName,AssetDes,AssetStatus
+101,Laptops,abcdefghijkl,allocated
+789,HDD,ToStoreData,unallocated
+102,PC,mnopqrs,unallocated
+103,WI-FI,tuvwxyz,allocated

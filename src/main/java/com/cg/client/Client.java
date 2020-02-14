@@ -91,6 +91,7 @@ public class Client {
 							System.out.println("Asset Updated");
 						break;
 					case 3: // ViewAssets
+
 						assetService.viewAllAssets();
 						break;
 
@@ -100,11 +101,24 @@ public class Client {
 						break;
 
 					case 5: // View requests
-						assetAllocationService = new AssetAllocationServiceImpl();
-						assetAllocationService.findAll();
+						List<AssetAllocation> requests = assetAllocationService.findAll();
+
+						for (int i = 0; i < requests.size(); i++) {
+							System.out.println("--------------------------------");
+							System.out.println(requests.get(i).getAllocationId());
+							System.out.println(requests.get(i).getAsset().getAssetId());
+							System.out.println(requests.get(i).getAsset().getAssetName());
+							System.out.println(requests.get(i).getAsset().getAssetDes());
+							System.out.println(requests.get(i).getEmployee().getEmpNo());
+							System.out.println(requests.get(i).getEmployee().getEmpName());
+							System.out.println(requests.get(i).getRemark());
+							System.out.println(requests.get(i).getStatus());
+							System.out.println("--------------------------------");
+						}
 
 					case 6: // View Pending
 						assetAllocationService.findPending();
+						break;
 					case 7: // Change status
 
 					case 8: // Log out
@@ -144,7 +158,7 @@ public class Client {
 					int ch = scanner.nextInt();
 					switch (ch) {
 					case 1: // Raise Request
-						
+
 						assetAllocation = new AssetAllocation();
 
 						System.out.println("Enter allocation ID: ");
@@ -165,20 +179,22 @@ public class Client {
 						assetAllocation.setRemark(scanner.next());
 						assetAllocationService.request(assetAllocation);
 						break;
-						
+
 					case 2: // View status
 						System.out.println("Enter Allocation id to locate: ");
 						int keyFind = scanner.nextInt();
-						System.out.println( assetAllocationService.findById(keyFind));
-						/*System.out.println("---------------------------");
-						System.out.println("AllocationID: " + asaloc.getAllocationId());
-						System.out.println("AssetId: " + asaloc.getAsset().getAssetId());
-						System.out.println("AssetName: " + asaloc.getAsset().getAssetName());
-						System.out.println("AssetDes" + asaloc.getAsset().getAssetDes());
-						System.out.println("Employee Number" + asaloc.getEmployee().getEmpNo());
-						System.out.println("Employee Name" + asaloc.getEmployee().getEmpName());
-						System.out.println("Request status: " + asaloc.getStatus());
-						System.out.println("Remark: " + asaloc.getRemark());*/
+						System.out.println(assetAllocationService.findById(keyFind));
+						/*
+						 * System.out.println("---------------------------");
+						 * System.out.println("AllocationID: " + asaloc.getAllocationId());
+						 * System.out.println("AssetId: " + asaloc.getAsset().getAssetId());
+						 * System.out.println("AssetName: " + asaloc.getAsset().getAssetName());
+						 * System.out.println("AssetDes" + asaloc.getAsset().getAssetDes());
+						 * System.out.println("Employee Number" + asaloc.getEmployee().getEmpNo());
+						 * System.out.println("Employee Name" + asaloc.getEmployee().getEmpName());
+						 * System.out.println("Request status: " + asaloc.getStatus());
+						 * System.out.println("Remark: " + asaloc.getRemark());
+						 */
 						System.out.println("---------------------------");
 						break;
 					case 3: // View All Request
@@ -186,14 +202,14 @@ public class Client {
 
 						for (int i = 0; i < allocationList.size(); i++) {
 							assetAllocation = allocationList.get(i);
-							System.out.println("AllocationId: "+assetAllocation.getAllocationId());
-							System.out.println("AssetId: "+assetAllocation.getAsset().getAssetId());
-							System.out.println("AssetName: "+assetAllocation.getAsset().getAssetName());
-							System.out.println("AssetDescription: "+assetAllocation.getAsset().getAssetDes());
-							System.out.println("EmployeeNo: "+assetAllocation.getEmployee().getEmpNo());
-							System.out.println("EmployeeName: "+assetAllocation.getEmployee().getEmpName());
-							System.out.println("Allocation Status: "+assetAllocation.getStatus());
-							System.out.println("Remark: "+assetAllocation.getRemark());
+							System.out.println("AllocationId: " + assetAllocation.getAllocationId());
+							System.out.println("AssetId: " + assetAllocation.getAsset().getAssetId());
+							System.out.println("AssetName: " + assetAllocation.getAsset().getAssetName());
+							System.out.println("AssetDescription: " + assetAllocation.getAsset().getAssetDes());
+							System.out.println("EmployeeNo: " + assetAllocation.getEmployee().getEmpNo());
+							System.out.println("EmployeeName: " + assetAllocation.getEmployee().getEmpName());
+							System.out.println("Allocation Status: " + assetAllocation.getStatus());
+							System.out.println("Remark: " + assetAllocation.getRemark());
 							System.out.println("---------------------------");
 						}
 
