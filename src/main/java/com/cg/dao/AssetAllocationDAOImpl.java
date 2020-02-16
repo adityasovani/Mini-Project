@@ -8,15 +8,15 @@ import java.util.Map;
 import com.cg.bean.Asset;
 import com.cg.bean.AssetAllocation;
 import com.cg.bean.Employee;
+import com.cg.exception.AssetException;
 
 public class AssetAllocationDAOImpl implements AssetAllocationDAO {
 
 	private Map<Integer, AssetAllocation> allocations = new HashMap<Integer, AssetAllocation>();
 
 	AssetAllocation assetAllocation ;
-	Asset asset;
 
-	public AssetAllocationDAOImpl() throws Exception {
+	public AssetAllocationDAOImpl() {
 
 		AssetDAO assetDao = new AssetDAOImpl();
 		EmployeeDao employeeDao = new EmployeeDaoImpl();
@@ -25,32 +25,32 @@ public class AssetAllocationDAOImpl implements AssetAllocationDAO {
 		
 		assetAllocation.setAllocationId(1205);
 
-		assetAllocation.setAssetId(assetDao.getAssetById(101).getAssetId());
-		assetAllocation.setAsset(assetDao.getAssetById(101));
-
-		assetAllocation.setEmployee(employeeDao.getEmployeeById(101));
+		try {
+			assetAllocation.setAssetId(assetDao.getAssetById(101).getAssetId());
+			assetAllocation.setAsset(assetDao.getAssetById(101));
+			assetAllocation.setEmployee(employeeDao.getEmployeeById(101));
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
 
 		assetAllocation.setStatus("pending");
 		assetAllocation.setRemark("Work in progress");
 
+		//Record no 2
+		
 		AssetAllocation alloc2 = new AssetAllocation();
 
 		alloc2.setAllocationId(488);
 
-		Asset asset1 = new Asset();
-		asset1.setAssetId(101);
-		asset1.setAssetName("Desktops");
-		asset1.setAssetDes("laptops required for additional interns");
-		asset1.setStatus("allocated");
-
-		alloc2.setAssetId(asset1.getAssetId());
-		alloc2.setAsset(asset1);
-
-		Employee employee1 = new Employee();
-		employee1.setDepartment("Networks");
-		employee1.setEmpName("Mayuresh");
-		employee1.setEmpNo(2344);
-		alloc2.setEmployee(employee1);
+		try {
+			alloc2.setAssetId(assetDao.getAssetById(102).getAssetId());
+			alloc2.setAsset(assetDao.getAssetById(102));
+			alloc2.setEmployee(employeeDao.getEmployeeById(103));
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
 
 		alloc2.setStatus("pending");
 		alloc2.setRemark("scrambling resources");
@@ -61,24 +61,22 @@ public class AssetAllocationDAOImpl implements AssetAllocationDAO {
 
 	public void changeStatus(int assetId, String status, String remark) {
 
-		assetAllocation = new AssetAllocation();
-		
 		assetAllocation = allocations.get(assetId);
+		
+		Asset asset = assetAllocation.getAsset();
+		
+		if (status.equals("approved") ) {
+			asset.setStatus("allocated");
+		} else if (status.equals("rejected")) {
+			asset.setStatus("unallocated");
+		}
+		
+		assetAllocation.setAsset(asset);
 		assetAllocation.setStatus(status);
 		assetAllocation.setRemark(remark);
 		
 		allocations.replace(assetId, assetAllocation);
 		
-		/*for (int key : allocations.keySet()) {
-			if (assetId == key) {
-				assetAllocation = allocations.get(assetId);
-				assetAllocation.setStatus(status);
-				assetAllocation.setRemark(remark);
-				allocations.put(assetId, assetAllocation);
-			}
-		}*/
-		//System.out.println("Status = "+allocations.get(assetId).getStatus());
-
 	}
 
 	public void request(AssetAllocation assetAllocation) {

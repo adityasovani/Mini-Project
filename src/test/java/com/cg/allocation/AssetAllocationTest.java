@@ -63,8 +63,10 @@ public class AssetAllocationTest {
 	@Ignore
 	@Test
 	public void testFindAllPending() {
-		List<AssetAllocation> pending = assetAllocationDAO.findPending();
-		System.out.println("Pendya: " + pending.size());
+		List<AssetAllocation> pending = new ArrayList<AssetAllocation>();
+		for(int i=0; i<assetAllocationDAO.findPending().size(); i++) {
+			pending.add(assetAllocationDAO.findPending().get(i));
+		}
 	}
 
 	@Ignore

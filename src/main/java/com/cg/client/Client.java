@@ -21,7 +21,7 @@ public class Client {
 
 	private static Scanner scanner;
 	private static Asset asset;
-	private static UserService user;
+	private static UserService userService;
 	private static AssetService assetService;
 	private static AssetAllocationService assetAllocationService;
 	private static AssetAllocation assetAllocation;
@@ -33,9 +33,9 @@ public class Client {
 		boolean isLoggedIn = true;
 		String userType = null;
 		scanner = new Scanner(System.in);
-		user = new UserServiceImpl();
-		assetAllocationService = new AssetAllocationServiceImpl();
+		userService = new UserServiceImpl();
 		assetService = new AssetServiceImpl();
+		assetAllocationService = new AssetAllocationServiceImpl();
 		employeeService = new EmployeeServiceImpl();
 
 		do {
@@ -54,7 +54,7 @@ public class Client {
 				uName = scanner.next();
 				uPass = scanner.next();
 
-				User loggedUser = user.login(uName, uPass);
+				User loggedUser = userService.login(uName, uPass);
 				userType = loggedUser.getUserType();
 
 				if (!userType.equals("admin"))
@@ -115,9 +115,23 @@ public class Client {
 							System.out.println(requests.get(i).getStatus());
 							System.out.println("--------------------------------");
 						}
-
+						break;
 					case 6: // View Pending
-						assetAllocationService.findPending();
+						List<AssetAllocation> pending = new ArrayList<AssetAllocation>();
+
+						System.out.println("PENDING REQUESTS");
+						System.out.println("AllocationID\tAssetID\tAssetName\tEmployeeId\tEmployeeName\tRemark");
+						for (int i = 0; i < assetAllocationService.findPending().size(); i++) {
+							pending.add(assetAllocationService.findPending().get(i));
+							System.out.println(assetAllocationService.findPending().get(i).getAllocationId() + "\t"
+									+ assetAllocationService.findPending().get(i).getAsset().getAssetId() + "\t"
+									+ assetAllocationService.findPending().get(i).getAsset().getAssetName() + "\t"
+									+ assetAllocationService.findPending().get(i).getEmployee().getEmpNo() + "\t"
+									+ assetAllocationService.findPending().get(i).getEmployee().getEmpName() + "\t"
+									+ assetAllocationService.findPending().get(i).getRemark());
+						}
+
+						// assetAllocationService.findPending();
 						break;
 					case 7: // Change status
 						System.out.println("Enter AllocationId, Status and Remark");
@@ -141,7 +155,7 @@ public class Client {
 				uName = scanner.next();
 				uPass = scanner.next();
 
-				User loggedUser = user.login(uName, uPass);
+				User loggedUser = userService.login(uName, uPass);
 				userType = loggedUser.getUserType();
 
 				if (!userType.equals("manager"))
@@ -221,7 +235,8 @@ public class Client {
 						System.out.println("ID\tName\tDepartment");
 						for (int i = 0; i < employeeService.viewAllEmployees().size(); i++) {
 							employees.add(employeeService.viewAllEmployees().get(i));
-							System.out.println(employees.get(i).getEmpNo()+"\t"+employees.get(i).getEmpName()+"\t"+employees.get(i).getDepartment());
+							System.out.println(employees.get(i).getEmpNo() + "\t" + employees.get(i).getEmpName() + "\t"
+									+ employees.get(i).getDepartment());
 						}
 
 						break;
