@@ -1,8 +1,10 @@
 package com.cg.allocation;
+
 import static org.junit.Assert.*;
 
 import java.util.List;
 
+import org.junit.Ignore;
 import org.junit.Test;
 
 import com.cg.bean.Asset;
@@ -10,46 +12,70 @@ import com.cg.bean.AssetAllocation;
 import com.cg.bean.Employee;
 import com.cg.dao.AssetAllocationDAO;
 import com.cg.dao.AssetAllocationDAOImpl;
+import com.cg.dao.AssetDAO;
+import com.cg.dao.AssetDAOImpl;
+import com.cg.dao.EmployeeDao;
+import com.cg.dao.EmployeeDaoImpl;
+import com.cg.exception.AssetException;
 
 public class AssetAllocationTest {
 
-	AssetAllocationDAO assetAllocationDAO;
+	AssetAllocationDAO assetAllocationDAO = new AssetAllocationDAOImpl();
 
+	@Ignore
 	@Test
 	public void testChangeStatus() {
-		assetAllocationDAO = new AssetAllocationDAOImpl();
-		assetAllocationDAO.changeStatus(101, "rejected", "Lai nataka hotayt");
-		
+		assetAllocationDAO.changeStatus(1205, "rejected", "Lai nataka hotayt");
+
+	}
+
+	@Ignore
+	@Test
+	public void testFindAll() {
+		List<AssetAllocation> allocs = assetAllocationDAO.findAll();
+
+		System.out.println("No of requests: " + allocs.size());
 	}
 
 	@Test
-	public void testFindAll() {
-		assetAllocationDAO = new AssetAllocationDAOImpl();
-		List<AssetAllocation> allocs = assetAllocationDAO.findAll();
+	public void testFindById() throws Exception {
+		AssetAllocation assetAllocation = new AssetAllocation();
+		Asset asset = new Asset();
+		AssetDAO assetDAO = new AssetDAOImpl();
+		EmployeeDao employeeDao = new EmployeeDaoImpl();
+		assetAllocation.setAllocationId(501);
+
+		assetAllocation.setAsset(assetDAO.getAssetById(102));
+		assetAllocation.setAssetId(assetDAO.getAssetById(102).getAssetId());
+
+		assetAllocation.setEmployee(employeeDao.getEmployeeById(101));
+
+		assetAllocation.setStatus("pending");
+		assetAllocation.setRemark("Alright");
+		assetAllocationDAO.request(assetAllocation);
 		
-		System.out.println("No of requests: "+allocs.size());
+		for (int i = 0; i < assetAllocationDAO.findAll().size(); i++) {
+			System.out.println("AllocationID: "+assetAllocationDAO.findAll().get(i).getAllocationId());
+			System.out.println("AssetID: "+assetAllocationDAO.findAll().get(i).getAsset().getAssetId());
+		}
+		
+		//System.out.println("FindByID.501:"+assetAllocationDAO.findById(501));
+		assertEquals(assetAllocationDAO.findById(501).getAllocationId(), 501);
 	}
-	
-	@Test
-	public void testFindById() {
-		assetAllocationDAO = new AssetAllocationDAOImpl();
-		System.out.println(assetAllocationDAO.findById(488).getAsset().getAssetId());
-		assertEquals(assetAllocationDAO.findById(488).getAllocationId(), 488);
-	}
-	
+
+	@Ignore
 	@Test
 	public void testFindAllPending() {
-		assetAllocationDAO = new AssetAllocationDAOImpl();
 		List<AssetAllocation> pending = assetAllocationDAO.findPending();
-		System.out.println("Pendya: "+pending.size());
+		System.out.println("Pendya: " + pending.size());
 	}
-	
+
+	@Ignore
 	@Test
 	public void testRequest() {
-		assetAllocationDAO = new AssetAllocationDAOImpl();
-		
+
 		AssetAllocation assetAllocation = new AssetAllocation();
-		
+
 		assetAllocation.setAllocationId(100);
 
 		Asset asset = new Asset();
@@ -69,15 +95,14 @@ public class AssetAllocationTest {
 
 		assetAllocation.setStatus("rejected");
 		assetAllocation.setRemark("scrambling resources");
-		
-		//Call request function of the AssetAllocationDAO
+
+		// Call request function of the AssetAllocationDAO
 		assetAllocationDAO.request(assetAllocation);
-		
-		System.out.println("FindAll: "+assetAllocationDAO.findAll().size());
+
+		System.out.println("FindAll: " + assetAllocationDAO.findAll().size());
 	}
-	
-	/*@Test
-	void testAdminViewAll() {
-		AdminDAO admin = new AdminDAOImpl();
-	}*/
+
+	/*
+	 * @Test void testAdminViewAll() { AdminDAO admin = new AdminDAOImpl(); }
+	 */
 }

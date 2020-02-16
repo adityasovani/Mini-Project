@@ -185,18 +185,17 @@ public class Client {
 					case 2: // View status
 						System.out.println("Enter Allocation id to locate: ");
 						int keyFind = scanner.nextInt();
-						System.out.println(assetAllocationService.findById(keyFind));
-						/*
-						 * System.out.println("---------------------------");
-						 * System.out.println("AllocationID: " + asaloc.getAllocationId());
-						 * System.out.println("AssetId: " + asaloc.getAsset().getAssetId());
-						 * System.out.println("AssetName: " + asaloc.getAsset().getAssetName());
-						 * System.out.println("AssetDes" + asaloc.getAsset().getAssetDes());
-						 * System.out.println("Employee Number" + asaloc.getEmployee().getEmpNo());
-						 * System.out.println("Employee Name" + asaloc.getEmployee().getEmpName());
-						 * System.out.println("Request status: " + asaloc.getStatus());
-						 * System.out.println("Remark: " + asaloc.getRemark());
-						 */
+						AssetAllocation asaloc = assetAllocationService.findById(keyFind);
+						System.out.println("---------------------------");
+						System.out.println("AllocationID: " + asaloc.getAllocationId());
+						System.out.println("AssetId: " + asaloc.getAsset().getAssetId());
+						System.out.println("AssetName: " + asaloc.getAsset().getAssetName());
+						System.out.println("AssetDes" + asaloc.getAsset().getAssetDes());
+						System.out.println("Employee Number" + asaloc.getEmployee().getEmpNo());
+						System.out.println("Employee Name" + asaloc.getEmployee().getEmpName());
+						System.out.println("Request status: " + asaloc.getStatus());
+						System.out.println("Remark: " + asaloc.getRemark());
+
 						System.out.println("---------------------------");
 						break;
 					case 3: // View All Request
