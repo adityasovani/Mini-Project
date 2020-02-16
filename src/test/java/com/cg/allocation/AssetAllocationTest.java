@@ -2,6 +2,7 @@ package com.cg.allocation;
 
 import static org.junit.Assert.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.junit.Ignore;
@@ -16,11 +17,14 @@ import com.cg.dao.AssetDAO;
 import com.cg.dao.AssetDAOImpl;
 import com.cg.dao.EmployeeDao;
 import com.cg.dao.EmployeeDaoImpl;
-import com.cg.exception.AssetException;
 
 public class AssetAllocationTest {
 
-	AssetAllocationDAO assetAllocationDAO = new AssetAllocationDAOImpl();
+	private AssetAllocationDAO assetAllocationDAO;
+	
+	public AssetAllocationTest() throws Exception {
+		assetAllocationDAO = new AssetAllocationDAOImpl();
+	}
 
 	@Ignore
 	@Test
@@ -40,7 +44,6 @@ public class AssetAllocationTest {
 	@Test
 	public void testFindById() throws Exception {
 		AssetAllocation assetAllocation = new AssetAllocation();
-		Asset asset = new Asset();
 		AssetDAO assetDAO = new AssetDAOImpl();
 		EmployeeDao employeeDao = new EmployeeDaoImpl();
 		assetAllocation.setAllocationId(501);
@@ -53,12 +56,7 @@ public class AssetAllocationTest {
 		assetAllocation.setStatus("pending");
 		assetAllocation.setRemark("Alright");
 		assetAllocationDAO.request(assetAllocation);
-		
-		for (int i = 0; i < assetAllocationDAO.findAll().size(); i++) {
-			System.out.println("AllocationID: "+assetAllocationDAO.findAll().get(i).getAllocationId());
-			System.out.println("AssetID: "+assetAllocationDAO.findAll().get(i).getAsset().getAssetId());
-		}
-		
+
 		assertEquals(assetAllocationDAO.findById(501).getAllocationId(), 501);
 	}
 
@@ -101,7 +99,14 @@ public class AssetAllocationTest {
 		System.out.println("FindAll: " + assetAllocationDAO.findAll().size());
 	}
 
-	/*
-	 * @Test void testAdminViewAll() { AdminDAO admin = new AdminDAOImpl(); }
-	 */
+	@Test
+	public void testViewAll() {
+		List<AssetAllocation> allocationList = new ArrayList<AssetAllocation>();
+		
+		for (int i = 0; i < assetAllocationDAO.findAll().size(); i++) {
+			allocationList.add(assetAllocationDAO.findAll().get(i));
+			System.out.println(allocationList.get(i).getAllocationId()+ " "+ allocationList.get(i).getAsset().getAssetName());
+		}
+	}
+
 }

@@ -16,28 +16,22 @@ public class AssetAllocationDAOImpl implements AssetAllocationDAO {
 	AssetAllocation assetAllocation ;
 	Asset asset;
 
-	public AssetAllocationDAOImpl() {
+	public AssetAllocationDAOImpl() throws Exception {
 
+		AssetDAO assetDao = new AssetDAOImpl();
+		EmployeeDao employeeDao = new EmployeeDaoImpl();
+		
 		assetAllocation = new AssetAllocation();
+		
 		assetAllocation.setAllocationId(1205);
 
-		asset = new Asset();
-		asset.setAssetId(101);
-		asset.setAssetName("Laptops");
-		asset.setAssetDes("laptops required for additional interns");
-		asset.setStatus("allocated");
+		assetAllocation.setAssetId(assetDao.getAssetById(101).getAssetId());
+		assetAllocation.setAsset(assetDao.getAssetById(101));
 
-		assetAllocation.setAssetId(asset.getAssetId());
-		assetAllocation.setAsset(asset);
-
-		Employee employee = new Employee();
-		employee.setDepartment("Networks");
-		employee.setEmpName("Mayuresh");
-		employee.setEmpNo(2344);
-		assetAllocation.setEmployee(employee);
+		assetAllocation.setEmployee(employeeDao.getEmployeeById(101));
 
 		assetAllocation.setStatus("pending");
-		assetAllocation.setRemark("scrambling resources");
+		assetAllocation.setRemark("Work in progress");
 
 		AssetAllocation alloc2 = new AssetAllocation();
 

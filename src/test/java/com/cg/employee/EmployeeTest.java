@@ -12,7 +12,7 @@ import com.cg.dao.EmployeeDao;
 import com.cg.dao.EmployeeDaoImpl;
 import com.cg.exception.EmployeeException;
 
-public class TestEmployee {
+public class EmployeeTest {
 
 	EmployeeDao employeeDao = new EmployeeDaoImpl();
 	Employee employee = employeeDao.addEmp(104, "Sameer", "Statistics");
