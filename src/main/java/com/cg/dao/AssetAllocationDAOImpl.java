@@ -8,21 +8,22 @@ import java.util.Map;
 import com.cg.bean.Asset;
 import com.cg.bean.AssetAllocation;
 import com.cg.bean.Employee;
+import com.cg.exception.AllocationException;
 import com.cg.exception.AssetException;
 
 public class AssetAllocationDAOImpl implements AssetAllocationDAO {
 
 	private Map<Integer, AssetAllocation> allocations = new HashMap<Integer, AssetAllocation>();
 
-	AssetAllocation assetAllocation ;
+	AssetAllocation assetAllocation;
 
 	public AssetAllocationDAOImpl() {
 
 		AssetDAO assetDao = new AssetDAOImpl();
 		EmployeeDao employeeDao = new EmployeeDaoImpl();
-		
+
 		assetAllocation = new AssetAllocation();
-		
+
 		assetAllocation.setAllocationId(1205);
 
 		try {
@@ -32,13 +33,12 @@ public class AssetAllocationDAOImpl implements AssetAllocationDAO {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
 
 		assetAllocation.setStatus("pending");
 		assetAllocation.setRemark("Work in progress");
 
-		//Record no 2
-		
+		// Record no 2
+
 		AssetAllocation alloc2 = new AssetAllocation();
 
 		alloc2.setAllocationId(488);
@@ -50,7 +50,6 @@ public class AssetAllocationDAOImpl implements AssetAllocationDAO {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
 
 		alloc2.setStatus("pending");
 		alloc2.setRemark("scrambling resources");
@@ -59,24 +58,28 @@ public class AssetAllocationDAOImpl implements AssetAllocationDAO {
 		allocations.put(alloc2.getAllocationId(), alloc2);
 	}
 
-	public void changeStatus(int assetId, String status, String remark) {
+	public void changeStatus(int assetId, String status, String remark) throws AllocationException {
 
+		if(! allocations.containsKey(assetId))
+			throw new AllocationException("Requested asset Does not exist");
 		assetAllocation = allocations.get(assetId);
-		
+
 		Asset asset = assetAllocation.getAsset();
-		
-		if (status.equals("approved") ) {
+
+		if (status.equals("approved")) {
 			asset.setStatus("allocated");
 		} else if (status.equals("rejected")) {
 			asset.setStatus("unallocated");
+		} else {
+			throw new AllocationException("Status must be approved, pending or denied");
 		}
-		
+
 		assetAllocation.setAsset(asset);
 		assetAllocation.setStatus(status);
 		assetAllocation.setRemark(remark);
-		
+
 		allocations.replace(assetId, assetAllocation);
-		
+
 	}
 
 	public void request(AssetAllocation assetAllocation) {

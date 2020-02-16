@@ -5,12 +5,13 @@ import java.util.List;
 import com.cg.bean.AssetAllocation;
 import com.cg.dao.AssetAllocationDAO;
 import com.cg.dao.AssetAllocationDAOImpl;
+import com.cg.exception.AllocationException;
 
 public class AssetAllocationServiceImpl implements AssetAllocationService{
 
 	AssetAllocationDAO assetAllocationDao = new AssetAllocationDAOImpl();
 	
-	public void changeStatus(int assetId, String status, String remark) {
+	public void changeStatus(int assetId, String status, String remark) throws AllocationException {
 		assetAllocationDao.changeStatus(assetId, status, remark);
 	}
 

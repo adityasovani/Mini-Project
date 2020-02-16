@@ -18,10 +18,9 @@ public class EmployeeTest {
 	Employee employee = employeeDao.addEmp(104, "Sameer", "Statistics");
 
 	@Test
-	// Test to check empExists()
+	//Test to check existence of employee
 	public void testEmpExists() throws EmployeeException {
 		assertEquals(employeeDao.exists(104), true);
-		assertEquals(employeeDao.exists(105), false);
 	}
 
 	@Test

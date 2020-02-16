@@ -5,7 +5,6 @@ import static org.junit.Assert.*;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.junit.Ignore;
 import org.junit.Test;
 
 import com.cg.bean.Asset;
@@ -17,23 +16,18 @@ import com.cg.dao.AssetDAO;
 import com.cg.dao.AssetDAOImpl;
 import com.cg.dao.EmployeeDao;
 import com.cg.dao.EmployeeDaoImpl;
+import com.cg.exception.AllocationException;
 
 public class AssetAllocationTest {
 
-	private AssetAllocationDAO assetAllocationDAO;
-	
-	public AssetAllocationTest() throws Exception {
-		assetAllocationDAO = new AssetAllocationDAOImpl();
-	}
+	private AssetAllocationDAO assetAllocationDAO = new AssetAllocationDAOImpl();
 
-	@Ignore
 	@Test
-	public void testChangeStatus() {
-		assetAllocationDAO.changeStatus(1205, "rejected", "Lai nataka hotayt");
-
+	public void testChangeStatus() throws AllocationException {
+		assetAllocationDAO.changeStatus(1205, "rejected", "Insufficient  privilages");
+		assertEquals("rejected", assetAllocationDAO.findById(1205).getStatus());
 	}
 
-	@Ignore
 	@Test
 	public void testFindAll() {
 		List<AssetAllocation> allocs = assetAllocationDAO.findAll();
@@ -60,16 +54,16 @@ public class AssetAllocationTest {
 		assertEquals(assetAllocationDAO.findById(501).getAllocationId(), 501);
 	}
 
-	@Ignore
 	@Test
 	public void testFindAllPending() {
 		List<AssetAllocation> pending = new ArrayList<AssetAllocation>();
-		for(int i=0; i<assetAllocationDAO.findPending().size(); i++) {
+		for (int i = 0; i < assetAllocationDAO.findPending().size(); i++) {
 			pending.add(assetAllocationDAO.findPending().get(i));
 		}
+		// Check whether it is returning pending records or not
+		assertEquals(assetAllocationDAO.findPending().get(0).getStatus(), "pending");
 	}
 
-	@Ignore
 	@Test
 	public void testRequest() {
 
@@ -98,17 +92,27 @@ public class AssetAllocationTest {
 		// Call request function of the AssetAllocationDAO
 		assetAllocationDAO.request(assetAllocation);
 
-		System.out.println("FindAll: " + assetAllocationDAO.findAll().size());
+		assertEquals(assetAllocationDAO.findById(100) instanceof AssetAllocation, true);
 	}
 
 	@Test
 	public void testViewAll() {
 		List<AssetAllocation> allocationList = new ArrayList<AssetAllocation>();
-		
+
 		for (int i = 0; i < assetAllocationDAO.findAll().size(); i++) {
 			allocationList.add(assetAllocationDAO.findAll().get(i));
-			System.out.println(allocationList.get(i).getAllocationId()+ " "+ allocationList.get(i).getAsset().getAssetName());
+			System.out.println(
+					allocationList.get(i).getAllocationId() + " " + allocationList.get(i).getAsset().getAssetName());
 		}
 	}
 
+	@Test(expected=AllocationException.class)
+	public void testAllocationStatusException() throws AllocationException {
+		assetAllocationDAO.changeStatus(1205, "accept", "This is for record");
+	}
+
+	@Test(expected=AllocationException.class)
+	public void testChangeStatusException() throws AllocationException {
+		assetAllocationDAO.changeStatus(11205, "accept", "This is for record");
+	}
 }
