@@ -71,7 +71,7 @@ public class AssetAllocationDAOImpl implements AssetAllocationDAO {
 		} else if (status.equals("rejected")) {
 			asset.setStatus("unallocated");
 		} else {
-			throw new AllocationException("Status must be approved, pending or denied");
+			throw new AllocationException("Invalid status. Status must be approved, pending or denied");
 		}
 
 		assetAllocation.setAsset(asset);

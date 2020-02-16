@@ -107,11 +107,13 @@ public class AssetAllocationTest {
 	}
 
 	@Test(expected=AllocationException.class)
+	//Check exception thrown for invalid status
 	public void testAllocationStatusException() throws AllocationException {
 		assetAllocationDAO.changeStatus(1205, "accept", "This is for record");
 	}
 
 	@Test(expected=AllocationException.class)
+	//Check exception thrown for invalid allocationId
 	public void testChangeStatusException() throws AllocationException {
 		assetAllocationDAO.changeStatus(11205, "accept", "This is for record");
 	}

@@ -26,15 +26,13 @@ public class EmployeeTest {
 	@Test
 	// Test to check addEmployee()
 	public void addEmployeeTest() {
-		Employee employee = employeeDao.addEmp(79, "Ratan", "BI");
-		assertEquals(employee.getEmpName(), "Ratan");
+		assertEquals(employeeDao.addEmp(79, "Ratan", "BI").getEmpName(), "Ratan");
 	}
 
 	@Test
 	// Check getEmployeeById
 	public void testGetEmployeeById() throws EmployeeException {
-		Employee employee = employeeDao.getEmployeeById(104);
-		assertEquals("Sameer", employee.getEmpName());
+		assertEquals("Sameer", employeeDao.getEmployeeById(104).getEmpName());
 	}
 
 	@Test(expected = EmployeeException.class)
@@ -50,6 +48,6 @@ public class EmployeeTest {
 		for (int i = 0; i < employeeDao.viewAllEmployees().size(); i++) {
 			employeeList.add(employeeDao.viewAllEmployees().get(i));
 		}
-		assertEquals(employeeList.get(0).getEmpName(), "Ram");
+		assertEquals(employeeList.get(0) instanceof Employee, true);
 	}
 }

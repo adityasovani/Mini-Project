@@ -1,5 +1,6 @@
 package com.cg.dao;
 
+import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.Writer;
@@ -61,14 +62,15 @@ public class AssetDAOImpl implements AssetDAO {
 		return asset;
 	}
 
-	public Asset updateAsset(int assetId, String assetName, String assetDes, String status)
-			throws IllegalArgumentException {
+	public Asset updateAsset(int assetId, String assetName, String assetDes, String status) throws Exception {
 
-		asset = new Asset();
+		if (!assets.containsKey(assetId))
+			throw new AssetException("Asset does not exist. Check assetId and try again.");
 
 		if (!status.equals("allocated") && !status.equals("unallocated"))
 			throw new IllegalArgumentException("status can be allocated and unallocated.");
 
+		asset = new Asset();
 		asset.setAssetId(assetId);
 		asset.setAssetName(assetName);
 		asset.setAssetDes(assetDes);
@@ -82,10 +84,10 @@ public class AssetDAOImpl implements AssetDAO {
 
 	public void viewAllAssets() {
 		asset = new Asset();
-		
+
 		System.out.println("ALLOCATED ASSETS\n");
 		System.out.println("AssetID\tAssetName\tAssetDes\tAssetStatus");
-		
+
 		for (Integer key : assets.keySet()) {
 
 			asset = assets.get(key);
@@ -97,7 +99,7 @@ public class AssetDAOImpl implements AssetDAO {
 
 		System.out.println("\nUNALLOCATED ASSETS\n");
 		System.out.println("AssetID\tAssetName\tAssetDes\tAssetStatus");
-		
+
 		for (Integer key1 : assets.keySet()) {
 
 			asset = assets.get(key1);
@@ -111,7 +113,9 @@ public class AssetDAOImpl implements AssetDAO {
 
 	public void export(String fileName) throws IOException {
 		Writer write = new FileWriter(fileName + ".csv", true);
-		write.write("AssetId,AssetName,AssetDes,AssetStatus\n");
+		File file = new File(fileName + ".csv");
+		if (!file.exists())
+			write.write("AssetId,AssetName,AssetDes,AssetStatus\n");
 		for (Integer key : assets.keySet()) {
 			asset = assets.get(key);
 			write.write(key + "," + asset.getAssetName() + "," + asset.getAssetDes() + "," + asset.getStatus() + "\n");
@@ -122,7 +126,7 @@ public class AssetDAOImpl implements AssetDAO {
 	}
 
 	public Asset getAssetById(int assetId) throws AssetException {
-		if(assets.get(assetId) instanceof Asset)
+		if (assets.get(assetId) instanceof Asset)
 			return assets.get(assetId);
 		else
 			throw new AssetException("Asset Does not Exist");

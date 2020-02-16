@@ -15,7 +15,7 @@ public class AssetServiceImpl implements AssetService{
 		return assetDao.addAsset(assetId, assetName, assetDes, status);
 	}
 
-	public Asset updateAsset(int assetId, String assetName, String assetDes, String status)	throws IllegalArgumentException {
+	public Asset updateAsset(int assetId, String assetName, String assetDes, String status)	throws Exception {
 		return assetDao.updateAsset(assetId, assetName, assetDes, status);
 	}
 

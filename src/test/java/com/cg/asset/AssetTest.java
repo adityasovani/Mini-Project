@@ -14,12 +14,11 @@ import com.cg.exception.AssetException;
 
 public class AssetTest {
 
-	AssetDAO assetdao;
+	AssetDAO assetdao = new AssetDAOImpl();
 
 	@Test
-	public void testUPDATE() {
+	public void testUPDATE() throws Exception {
 
-		assetdao = new AssetDAOImpl();
 		Asset asset;
 
 		asset = assetdao.updateAsset(101, "Desktop", "for high speed computing", "unallocated");
@@ -30,7 +29,6 @@ public class AssetTest {
 	@Test
 	public void testExport() throws IOException {
 
-		assetdao = new AssetDAOImpl();
 		assetdao.export("aditya");
 
 		File file = new File("aditya.csv");
@@ -40,20 +38,32 @@ public class AssetTest {
 
 	@Test
 	public void testViewAll() {
-		assetdao = new AssetDAOImpl();
 		assetdao.viewAllAssets();
 	}
 
 	@Test
 	public void testAdd() {
-		assetdao = new AssetDAOImpl();
 		Asset ast = assetdao.addAsset(158, "Routers", "for faster speed", "unallocated");
 		assertEquals(ast.getAssetName(), "Routers");
 	}
-	
+
 	@Test
 	public void testGetAssetbyId() throws AssetException {
-		assetdao = new AssetDAOImpl();
 		assertEquals("Laptops", assetdao.getAssetById(101).getAssetName());
+	}
+
+	@Test(expected = AssetException.class)
+	public void testGetAssetByIdException() throws AssetException {
+		assetdao.getAssetById(12033);
+	}
+
+	@Test(expected = IllegalArgumentException.class)
+	public void testAssetUpdateStatusException() throws Exception {
+		assetdao.updateAsset(101, "Mixer", "To mix", "available");
+	}
+
+	@Test(expected = AssetException.class)
+	public void testAssetIdUpdateException() throws  Exception {
+		assetdao.updateAsset(1008, "Mixer", "To mix", "allocated");
 	}
 }
