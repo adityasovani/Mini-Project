@@ -1,5 +1,7 @@
 package com.cg.service;
 
+import java.util.List;
+
 import com.cg.bean.Employee;
 import com.cg.dao.EmployeeDao;
 import com.cg.dao.EmployeeDaoImpl;
@@ -17,8 +19,8 @@ public class EmployeeServiceImpl implements EmployeeService{
 		return employeeDao.exists(empid);
 	}
 
-	public void viewAllEmployees() {
-		employeeDao.viewAllEmployees();
+	public List<Employee> viewAllEmployees() {
+		return employeeDao.viewAllEmployees();
 	}
 
 	public Employee getEmployeeById(int employeeId) throws EmployeeException {

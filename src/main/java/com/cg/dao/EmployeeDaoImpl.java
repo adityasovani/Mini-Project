@@ -1,6 +1,8 @@
 package com.cg.dao;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import com.cg.bean.Employee;
 import com.cg.exception.EmployeeException;
@@ -44,15 +46,12 @@ public class EmployeeDaoImpl implements EmployeeDao {
 		return employee;
 	}
 
-	public void viewAllEmployees() {
-		System.out.println("Employees List\n");
-		System.out.println("EmpId\tEmpName\tDepartment");
+	public List<Employee> viewAllEmployees() {
+		List<Employee> employeesList = new ArrayList<Employee>();
 		for (Integer key : employees.keySet()) {
-
-			employee = employees.get(key);
-			System.out.println(employee.getEmpNo() + "\t" + employee.getEmpName() + "\t" + employee.getDepartment());
-
+			employeesList.add(employees.get(key)) ;
 		}
+		return employeesList;
 	}
 
 	public boolean exists(int empId) {

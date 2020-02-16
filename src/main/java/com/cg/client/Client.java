@@ -1,6 +1,6 @@
 package com.cg.client;
 
-import java.util.Date;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
@@ -216,7 +216,14 @@ public class Client {
 
 						break;
 					case 4: // View all employees
-						employeeService.viewAllEmployees();
+						List<Employee> employees = new ArrayList<Employee>();
+
+						System.out.println("ID\tName\tDepartment");
+						for (int i = 0; i < employeeService.viewAllEmployees().size(); i++) {
+							employees.add(employeeService.viewAllEmployees().get(i));
+							System.out.println(employees.get(i).getEmpNo()+"\t"+employees.get(i).getEmpName()+"\t"+employees.get(i).getDepartment());
+						}
+
 						break;
 					case 5: // Add Employee
 						System.out.println("Enter Employee Id, Name and Department: ");

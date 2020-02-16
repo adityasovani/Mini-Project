@@ -59,7 +59,6 @@ public class AssetAllocationTest {
 			System.out.println("AssetID: "+assetAllocationDAO.findAll().get(i).getAsset().getAssetId());
 		}
 		
-		//System.out.println("FindByID.501:"+assetAllocationDAO.findById(501));
 		assertEquals(assetAllocationDAO.findById(501).getAllocationId(), 501);
 	}
 
