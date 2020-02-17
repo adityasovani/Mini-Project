@@ -20,6 +20,7 @@ public class AssetAllocationDAOImpl implements AssetAllocationDAO {
 		AssetDAO assetDao = new AssetDAOImpl();
 		EmployeeDao employeeDao = new EmployeeDaoImpl();
 
+		//Record no 1
 		assetAllocation = new AssetAllocation();
 
 		assetAllocation.setAllocationId(1205);
