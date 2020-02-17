@@ -58,8 +58,11 @@ public class EmployeeDaoImpl implements EmployeeDao {
 	}
 
 	//Check existence of employee
-	public boolean exists(int empId) {
-		return employees.get(empId) instanceof Employee;
+	public boolean exists(int empId) throws EmployeeException {
+		if(employees.get(empId) instanceof Employee)
+			return true;
+		else
+			throw new EmployeeException("Employee not found");
 	}
 
 	//Return employee of given id

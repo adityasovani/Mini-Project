@@ -15,7 +15,7 @@ public class EmployeeServiceImpl implements EmployeeService{
 		return employeeDao.addEmp(empId, empName, department);
 	}
 
-	public boolean exists(int empid) {
+	public boolean exists(int empid) throws EmployeeException {
 		return employeeDao.exists(empid);
 	}
 

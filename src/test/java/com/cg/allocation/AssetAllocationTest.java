@@ -10,27 +10,27 @@ import org.junit.Test;
 import com.cg.bean.Asset;
 import com.cg.bean.AssetAllocation;
 import com.cg.bean.Employee;
-import com.cg.dao.AssetAllocationDAO;
-import com.cg.dao.AssetAllocationDAOImpl;
 import com.cg.dao.AssetDAO;
 import com.cg.dao.AssetDAOImpl;
 import com.cg.dao.EmployeeDao;
 import com.cg.dao.EmployeeDaoImpl;
 import com.cg.exception.AllocationException;
+import com.cg.service.AssetAllocationService;
+import com.cg.service.AssetAllocationServiceImpl;
 
 public class AssetAllocationTest {
 
-	private AssetAllocationDAO assetAllocationDAO = new AssetAllocationDAOImpl();
+	private AssetAllocationService assetAllocationService = new AssetAllocationServiceImpl();
 
 	@Test
 	public void testChangeStatus() throws AllocationException {
-		assetAllocationDAO.changeStatus(1205, "rejected", "Insufficient  privilages");
-		assertEquals("rejected", assetAllocationDAO.findById(1205).getStatus());
+		assetAllocationService.changeStatus(1205, "rejected", "Insufficient  privilages");
+		assertEquals("rejected", assetAllocationService.findById(1205).getStatus());
 	}
 
 	@Test
 	public void testFindAll() {
-		List<AssetAllocation> allocs = assetAllocationDAO.findAll();
+		List<AssetAllocation> allocs = assetAllocationService.findAll();
 
 		System.out.println("No of requests: " + allocs.size());
 	}
@@ -49,23 +49,23 @@ public class AssetAllocationTest {
 
 		assetAllocation.setStatus("pending");
 		assetAllocation.setRemark("Alright");
-		assetAllocationDAO.request(assetAllocation);
+		assetAllocationService.request(assetAllocation);
 
-		assertEquals(assetAllocationDAO.findById(501).getAllocationId(), 501);
+		assertEquals(assetAllocationService.findById(501).getAllocationId(), 501);
 	}
 
 	@Test
 	public void testFindAllPending() {
 		List<AssetAllocation> pending = new ArrayList<AssetAllocation>();
-		for (int i = 0; i < assetAllocationDAO.findPending().size(); i++) {
-			pending.add(assetAllocationDAO.findPending().get(i));
+		for (int i = 0; i < assetAllocationService.findPending().size(); i++) {
+			pending.add(assetAllocationService.findPending().get(i));
 		}
 		// Check whether it is returning pending records or not
-		assertEquals(assetAllocationDAO.findPending().get(0).getStatus(), "pending");
+		assertEquals(assetAllocationService.findPending().get(0).getStatus(), "pending");
 	}
 
 	@Test
-	public void testRequest() {
+	public void testRequest() throws AllocationException {
 
 		AssetAllocation assetAllocation = new AssetAllocation();
 
@@ -90,31 +90,36 @@ public class AssetAllocationTest {
 		assetAllocation.setRemark("scrambling resources");
 
 		// Call request function of the AssetAllocationDAO
-		assetAllocationDAO.request(assetAllocation);
+		assetAllocationService.request(assetAllocation);
 
-		assertEquals(assetAllocationDAO.findById(100) instanceof AssetAllocation, true);
+		assertEquals(assetAllocationService.findById(100) instanceof AssetAllocation, true);
 	}
 
 	@Test
 	public void testViewAll() {
 		List<AssetAllocation> allocationList = new ArrayList<AssetAllocation>();
 
-		for (int i = 0; i < assetAllocationDAO.findAll().size(); i++) {
-			allocationList.add(assetAllocationDAO.findAll().get(i));
+		for (int i = 0; i < assetAllocationService.findAll().size(); i++) {
+			allocationList.add(assetAllocationService.findAll().get(i));
 			System.out.println(
 					allocationList.get(i).getAllocationId() + " " + allocationList.get(i).getAsset().getAssetName());
 		}
 	}
 
-	@Test(expected=AllocationException.class)
+	@Test(expected=IllegalArgumentException.class)
 	//Check exception thrown for invalid status
 	public void testAllocationStatusException() throws AllocationException {
-		assetAllocationDAO.changeStatus(1205, "accept", "This is for record");
+		assetAllocationService.changeStatus(1205, "accept", "This is for record");
 	}
 
 	@Test(expected=AllocationException.class)
 	//Check exception thrown for invalid allocationId
 	public void testChangeStatusException() throws AllocationException {
-		assetAllocationDAO.changeStatus(11205, "approved", "This is for record");
+		assetAllocationService.changeStatus(11205, "approved", "This is for record");
+	}
+	
+	@Test(expected=AllocationException.class)
+	public void findByIdAllocationException() throws AllocationException{
+		assetAllocationService.findById(788);
 	}
 }

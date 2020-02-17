@@ -19,7 +19,7 @@ public class AssetAllocationServiceImpl implements AssetAllocationService{
 		assetAllocationDao.request(assetAllocation);
 	}
 
-	public AssetAllocation findById(int allocationId) {
+	public AssetAllocation findById(int allocationId) throws AllocationException {
 		return assetAllocationDao.findById(allocationId);
 	}
 

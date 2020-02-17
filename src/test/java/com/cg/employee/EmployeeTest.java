@@ -8,46 +8,52 @@ import java.util.List;
 import org.junit.Test;
 
 import com.cg.bean.Employee;
-import com.cg.dao.EmployeeDao;
-import com.cg.dao.EmployeeDaoImpl;
 import com.cg.exception.EmployeeException;
+import com.cg.service.EmployeeService;
+import com.cg.service.EmployeeServiceImpl;
 
 public class EmployeeTest {
 
-	EmployeeDao employeeDao = new EmployeeDaoImpl();
-	Employee employee = employeeDao.addEmp(104, "Sameer", "Statistics");
+	EmployeeService employeeService = new EmployeeServiceImpl();
+	Employee employee = employeeService.addEmp(104, "Sameer", "Statistics");
 
 	@Test
 	//Test to check existence of employee
 	public void testEmpExists() throws EmployeeException {
-		assertEquals(employeeDao.exists(104), true);
+		assertEquals(employeeService.exists(104), true);
 	}
 
 	@Test
 	// Test to check addEmployee()
 	public void addEmployeeTest() {
-		assertEquals(employeeDao.addEmp(79, "Ratan", "BI").getEmpName(), "Ratan");
+		assertEquals(employeeService.addEmp(79, "Ratan", "BI").getEmpName(), "Ratan");
 	}
 
 	@Test
 	// Check getEmployeeById
 	public void testGetEmployeeById() throws EmployeeException {
-		assertEquals("Sameer", employeeDao.getEmployeeById(104).getEmpName());
-	}
-
-	@Test(expected = EmployeeException.class)
-	// Check employeeException of getEmployeeById
-	public void checkExceptionGetById() throws EmployeeException {
-		employeeDao.getEmployeeById(903);
+		assertEquals("Sameer", employeeService.getEmployeeById(104).getEmpName());
 	}
 
 	@Test
 	public void viewAllEmployees() {
 
 		List<Employee> employeeList = new ArrayList<Employee>();
-		for (int i = 0; i < employeeDao.viewAllEmployees().size(); i++) {
-			employeeList.add(employeeDao.viewAllEmployees().get(i));
+		for (int i = 0; i < employeeService.viewAllEmployees().size(); i++) {
+			employeeList.add(employeeService.viewAllEmployees().get(i));
 		}
 		assertEquals(employeeList.get(0) instanceof Employee, true);
+	}
+	
+	@Test(expected = EmployeeException.class)
+	// Check EmployeeException of getEmployeeById
+	public void checkExceptionGetById() throws EmployeeException {
+		employeeService.getEmployeeById(903);
+	}
+
+	@Test(expected = EmployeeException.class)
+	//Check EmployeeException while checking employee that doesn't exist
+	public void existsExceptionCheck() throws EmployeeException {
+		employeeService.exists(556);
 	}
 }

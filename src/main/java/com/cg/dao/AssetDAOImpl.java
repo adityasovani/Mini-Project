@@ -45,7 +45,7 @@ public class AssetDAOImpl implements AssetDAO {
 
 	}
 
-	//ADD new asset
+	// ADD new asset
 	public Asset addAsset(int assetId, String assetName, String assetDes, String status)
 			throws IllegalArgumentException {
 
@@ -64,7 +64,7 @@ public class AssetDAOImpl implements AssetDAO {
 		return asset;
 	}
 
-	//UPDATE asset
+	// UPDATE asset
 	public Asset updateAsset(int assetId, String assetName, String assetDes, String status) throws Exception {
 
 		if (!assets.containsKey(assetId))
@@ -79,13 +79,13 @@ public class AssetDAOImpl implements AssetDAO {
 		asset.setAssetDes(assetDes);
 		asset.setStatus(status);
 
-		assets.put(assetId, asset);
+		assets.replace(assetId, asset);
 
 		return asset;
 
 	}
 
-	//VIEW ALL assets in table format
+	// VIEW ALL assets in table format
 	public void viewAllAssets() {
 		asset = new Asset();
 
@@ -98,7 +98,6 @@ public class AssetDAOImpl implements AssetDAO {
 			if (asset.getStatus().equals("allocated"))
 				table.addRow(Integer.toString(assets.get(key).getAssetId()), assets.get(key).getAssetName(),
 						assets.get(key).getAssetDes());
-
 		}
 
 		table.print();
@@ -116,7 +115,7 @@ public class AssetDAOImpl implements AssetDAO {
 		table1.print();
 	}
 
-	//Export to CSV. Filename accepted from user
+	// Export to CSV. Filename accepted from user
 	public void export(String fileName) throws IOException {
 		Writer write = new FileWriter(fileName + ".csv", true);
 		File file = new File(fileName + ".csv");
@@ -131,7 +130,7 @@ public class AssetDAOImpl implements AssetDAO {
 
 	}
 
-	//RETURN ASSET for entered  id, otherwise throw exception
+	// RETURN ASSET for entered id, otherwise throw exception
 	public Asset getAssetById(int assetId) throws AssetException {
 		if (assets.get(assetId) instanceof Asset)
 			return assets.get(assetId);

@@ -8,7 +8,7 @@ import com.cg.exception.EmployeeException;
 public interface EmployeeService {
 	
 	public Employee addEmp(int empId, String empName, String department);
-	public boolean exists(int empid);
+	public boolean exists(int empid) throws EmployeeException;
 	public List<Employee> viewAllEmployees();
 	public Employee getEmployeeById(int employeeId) throws EmployeeException;
 	

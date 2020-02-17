@@ -6,6 +6,9 @@ import com.cg.bean.Asset;
 import com.cg.bean.AssetAllocation;
 import com.cg.bean.Employee;
 import com.cg.bean.User;
+import com.cg.exception.AllocationException;
+import com.cg.exception.AssetException;
+import com.cg.exception.EmployeeException;
 import com.cg.resources.TableList;
 import com.cg.service.AssetAllocationService;
 import com.cg.service.AssetAllocationServiceImpl;
@@ -76,8 +79,12 @@ public class Client {
 					case 1: // Add asset
 						// assetService = new AssetServiceImpl();
 						System.out.println("Enter asset id, asset name, asset des, and asset status:");
-						asset = assetService.addAsset(scanner.nextInt(), scanner.next(), scanner.next(),
-								scanner.next());
+						try {
+							asset = assetService.addAsset(scanner.nextInt(), scanner.next(), scanner.next(),
+									scanner.next());
+						} catch (IllegalArgumentException e) {
+							System.out.println("Status can be allocated or unallocated.");
+						}
 						System.out.println("Asset added: ");
 						break;
 
@@ -85,7 +92,13 @@ public class Client {
 						int key;
 						System.out.println("Enter assetId to update: ");
 						key = scanner.nextInt();
-						asset = assetService.updateAsset(key, scanner.next(), scanner.next(), scanner.next());
+						try {
+							asset = assetService.updateAsset(key, scanner.next(), scanner.next(), scanner.next());
+						} catch (IllegalArgumentException e) {
+							System.out.println("Error while updating asset.");
+						} catch (AssetException e) {
+							System.out.println("Asset doesn't exist.");
+						}
 						if (asset.getAssetId() == key)
 							System.out.println("Asset Updated");
 						break;
@@ -96,7 +109,11 @@ public class Client {
 
 					case 4: // Export
 						System.out.println("Enter file name: ");
-						assetService.export(scanner.next());
+						try {
+							assetService.export(scanner.next());
+						} catch (Exception e) {
+							System.out.println("Error while exporting. Please try again.");
+						}
 						break;
 
 					case 5: // View requests
@@ -135,13 +152,22 @@ public class Client {
 						}
 
 						break;
+
 					case 7: // Change status
 						System.out.println("Enter AllocationId, Status and Remark");
-						assetAllocationService.changeStatus(scanner.nextInt(), scanner.next(), scanner.next());
+						try {
+							assetAllocationService.changeStatus(scanner.nextInt(), scanner.next(), scanner.next());
+						} catch (AllocationException e) {
+							System.out.println("Requested asset doesn't exist.");
+						} catch (IllegalArgumentException e) {
+							System.out.println("Status can only be as approved, denied or pending.");
+						}
 						break;
+
 					case 8: // Log out
 						System.out.println("Log Out");
 						break admin;
+
 					default:
 						break;
 					}
@@ -195,7 +221,11 @@ public class Client {
 						assetAllocation.setStatus("pending");
 						System.out.println("Add remark: ");
 						assetAllocation.setRemark(scanner.next());
-						assetAllocationService.request(assetAllocation);
+						try {
+							assetAllocationService.request(assetAllocation);
+						} catch (Exception e) {
+							System.out.println("Error while requesting");
+						}
 						break;
 
 					case 2: // View status
@@ -206,14 +236,17 @@ public class Client {
 						System.out.println("Enter Allocation id to locate: ");
 						int keyFind = scanner.nextInt();
 
-						table3.addRow(Integer.toString(assetAllocationService.findById(keyFind).getAllocationId()),
-								Integer.toString(assetAllocationService.findById(keyFind).getAsset().getAssetId()),
-								assetAllocationService.findById(keyFind).getAsset().getAssetName(),
-								Integer.toString(assetAllocationService.findById(keyFind).getEmployee().getEmpNo()),
-								assetAllocationService.findById(keyFind).getEmployee().getEmpName(),
-								assetAllocationService.findById(keyFind).getStatus(),
-								assetAllocationService.findById(keyFind).getRemark()
-								);
+						try {
+							table3.addRow(Integer.toString(assetAllocationService.findById(keyFind).getAllocationId()),
+									Integer.toString(assetAllocationService.findById(keyFind).getAsset().getAssetId()),
+									assetAllocationService.findById(keyFind).getAsset().getAssetName(),
+									Integer.toString(assetAllocationService.findById(keyFind).getEmployee().getEmpNo()),
+									assetAllocationService.findById(keyFind).getEmployee().getEmpName(),
+									assetAllocationService.findById(keyFind).getStatus(),
+									assetAllocationService.findById(keyFind).getRemark());
+						} catch (AllocationException e) {
+							System.out.println("AllocationId does not exist.");
+						}
 
 						break;
 					case 3: // View All Request
@@ -232,6 +265,7 @@ public class Client {
 						}
 						table.print();
 						break;
+
 					case 4: // View all employees
 
 						TableList table2 = new TableList(3, "Id", "Name", "Department");
@@ -242,15 +276,22 @@ public class Client {
 						}
 						table2.print();
 						break;
+
 					case 5: // Add Employee
 						System.out.println("Enter Employee Id, Name and Department: ");
 						employee = employeeService.addEmp(scanner.nextInt(), scanner.next(), scanner.next());
 						System.out.println("Employee added. Name: " + employee.getEmpName());
 						break;
+
 					case 6: // Check employee
-						if (employeeService.exists(scanner.nextInt()))
-							System.out.println("Employee Exists");
+						try {
+							if (employeeService.exists(scanner.nextInt()))
+								System.out.println("Employee Exists");
+						} catch (EmployeeException e) {
+							System.out.println("Employee doesn't exist.");
+						}
 						break;
+
 					case 7: // Log Out
 						break manager;
 					default:

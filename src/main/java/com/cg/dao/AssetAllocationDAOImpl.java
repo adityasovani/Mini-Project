@@ -7,9 +7,7 @@ import java.util.Map;
 
 import com.cg.bean.Asset;
 import com.cg.bean.AssetAllocation;
-import com.cg.bean.Employee;
 import com.cg.exception.AllocationException;
-import com.cg.exception.AssetException;
 
 public class AssetAllocationDAOImpl implements AssetAllocationDAO {
 
@@ -63,6 +61,7 @@ public class AssetAllocationDAOImpl implements AssetAllocationDAO {
 
 		if (!allocations.containsKey(assetId))
 			throw new AllocationException("Requested asset Does not exist");
+		
 		assetAllocation = allocations.get(assetId);
 
 		Asset asset = assetAllocation.getAsset();
@@ -74,7 +73,7 @@ public class AssetAllocationDAOImpl implements AssetAllocationDAO {
 		} else if (status.equals("pending")) {
 			asset.setStatus("pending");
 		} else {
-			throw new AllocationException("Invalid status. Status must be approved, pending or denied");
+			throw new IllegalArgumentException("Invalid status. Status must be approved, pending or denied");
 		}
 
 		assetAllocation.setAsset(asset);
@@ -85,17 +84,20 @@ public class AssetAllocationDAOImpl implements AssetAllocationDAO {
 
 	}
 
-	//REQUEST for asset
+	// REQUEST for asset
 	public void request(AssetAllocation assetAllocation) {
 		allocations.put(assetAllocation.getAllocationId(), assetAllocation);
 	}
 
-	//FIND ALOCATION by id
-	public AssetAllocation findById(int allocationId) {
-		return allocations.get(allocationId);
+	// FIND ALOCATION by id
+	public AssetAllocation findById(int allocationId) throws AllocationException {
+		if (allocations.containsKey(allocationId))
+			return allocations.get(allocationId);
+		else
+			throw new AllocationException("Requested allocation doesn't exist.");
 	}
 
-	//FIND ALL allocations
+	// FIND ALL allocations
 	public List<AssetAllocation> findAll() {
 
 		List<AssetAllocation> assetAllocations = new ArrayList<AssetAllocation>();
@@ -108,7 +110,7 @@ public class AssetAllocationDAOImpl implements AssetAllocationDAO {
 		return assetAllocations;
 	}
 
-	//Find all PENDING asset allocation requests 
+	// Find all PENDING asset allocation requests
 	public List<AssetAllocation> findPending() {
 		List<AssetAllocation> pending = new ArrayList<AssetAllocation>();
 		for (int key : allocations.keySet()) {
