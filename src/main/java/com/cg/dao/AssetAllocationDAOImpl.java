@@ -58,9 +58,10 @@ public class AssetAllocationDAOImpl implements AssetAllocationDAO {
 		allocations.put(alloc2.getAllocationId(), alloc2);
 	}
 
+	// APPROVE or REJECT request
 	public void changeStatus(int assetId, String status, String remark) throws AllocationException {
 
-		if(! allocations.containsKey(assetId))
+		if (!allocations.containsKey(assetId))
 			throw new AllocationException("Requested asset Does not exist");
 		assetAllocation = allocations.get(assetId);
 
@@ -70,6 +71,8 @@ public class AssetAllocationDAOImpl implements AssetAllocationDAO {
 			asset.setStatus("allocated");
 		} else if (status.equals("rejected")) {
 			asset.setStatus("unallocated");
+		} else if (status.equals("pending")) {
+			asset.setStatus("pending");
 		} else {
 			throw new AllocationException("Invalid status. Status must be approved, pending or denied");
 		}
@@ -82,14 +85,17 @@ public class AssetAllocationDAOImpl implements AssetAllocationDAO {
 
 	}
 
+	//REQUEST for asset
 	public void request(AssetAllocation assetAllocation) {
 		allocations.put(assetAllocation.getAllocationId(), assetAllocation);
 	}
 
+	//FIND ALOCATION by id
 	public AssetAllocation findById(int allocationId) {
 		return allocations.get(allocationId);
 	}
 
+	//FIND ALL allocations
 	public List<AssetAllocation> findAll() {
 
 		List<AssetAllocation> assetAllocations = new ArrayList<AssetAllocation>();
@@ -102,6 +108,7 @@ public class AssetAllocationDAOImpl implements AssetAllocationDAO {
 		return assetAllocations;
 	}
 
+	//Find all PENDING asset allocation requests 
 	public List<AssetAllocation> findPending() {
 		List<AssetAllocation> pending = new ArrayList<AssetAllocation>();
 		for (int key : allocations.keySet()) {

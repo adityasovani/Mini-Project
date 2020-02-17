@@ -33,6 +33,8 @@ public class EmployeeDaoImpl implements EmployeeDao {
 		employees.put(employee2.getEmpNo(), employee2);
 	}
 
+	
+	//ADD employee 
 	public Employee addEmp(int empId, String empName, String department) {
 
 		employee = new Employee();
@@ -46,6 +48,7 @@ public class EmployeeDaoImpl implements EmployeeDao {
 		return employee;
 	}
 
+	//Find ALL EMPLOYEES
 	public List<Employee> viewAllEmployees() {
 		List<Employee> employeesList = new ArrayList<Employee>();
 		for (Integer key : employees.keySet()) {
@@ -54,10 +57,12 @@ public class EmployeeDaoImpl implements EmployeeDao {
 		return employeesList;
 	}
 
+	//Check existence of employee
 	public boolean exists(int empId) {
 		return employees.get(empId) instanceof Employee;
 	}
 
+	//Return employee of given id
 	public Employee getEmployeeById(int employeeId) throws EmployeeException {
 		
 		if(exists(employeeId))
