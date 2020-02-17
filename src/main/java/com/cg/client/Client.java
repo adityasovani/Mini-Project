@@ -77,7 +77,6 @@ public class Client {
 					int ch = scanner.nextInt();
 					switch (ch) {
 					case 1: // Add asset
-						// assetService = new AssetServiceImpl();
 						System.out.println("Enter asset id, asset name, asset des, and asset status:");
 						try {
 							asset = assetService.addAsset(scanner.nextInt(), scanner.next(), scanner.next(),
@@ -94,13 +93,16 @@ public class Client {
 						key = scanner.nextInt();
 						try {
 							asset = assetService.updateAsset(key, scanner.next(), scanner.next(), scanner.next());
+							if (asset.getAssetId() == key)
+								System.out.println("Asset Updated");
 						} catch (IllegalArgumentException e) {
 							System.out.println("Error while updating asset.");
 						} catch (AssetException e) {
 							System.out.println("Asset doesn't exist.");
+						} catch (Exception e) {
+							System.out.println("Asset cannot be updated.");
 						}
-						if (asset.getAssetId() == key)
-							System.out.println("Asset Updated");
+						
 						break;
 					case 3: // ViewAssets
 

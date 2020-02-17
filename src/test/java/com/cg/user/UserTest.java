@@ -8,15 +8,17 @@ import com.cg.bean.User;
 import com.cg.dao.UserDAO;
 import com.cg.dao.UserDAOImpl;
 import com.cg.exception.UserException;
+import com.cg.service.UserService;
+import com.cg.service.UserServiceImpl;
 
 public class UserTest {
 
 	@Test
 	public void testLoginAdmin() throws UserException {
-		UserDAO userDAO = new UserDAOImpl();
+		UserService userService = new UserServiceImpl();
+		
 		User user;
-
-		user = userDAO.login("aditya", "123");
+		user = userService.login("aditya", "123");
 
 		assertEquals(user.getUserType(), "admin");
 	}
