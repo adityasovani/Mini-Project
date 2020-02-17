@@ -1,7 +1,5 @@
 package com.cg.bean;
 
-import java.io.Serializable;
-
 public class Asset {
 	private int assetId;
 	private String assetName;

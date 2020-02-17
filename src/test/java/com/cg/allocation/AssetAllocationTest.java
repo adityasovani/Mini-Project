@@ -7,16 +7,12 @@ import java.util.List;
 
 import org.junit.Test;
 
-import com.cg.bean.Asset;
 import com.cg.bean.AssetAllocation;
-import com.cg.bean.Employee;
-import com.cg.dao.AssetDAO;
-import com.cg.dao.AssetDAOImpl;
-import com.cg.dao.EmployeeDao;
-import com.cg.dao.EmployeeDaoImpl;
 import com.cg.exception.AllocationException;
 import com.cg.service.AssetAllocationService;
 import com.cg.service.AssetAllocationServiceImpl;
+import com.cg.service.AssetServiceImpl;
+import com.cg.service.EmployeeServiceImpl;
 
 public class AssetAllocationTest {
 
@@ -37,21 +33,8 @@ public class AssetAllocationTest {
 
 	@Test
 	public void testFindById() throws Exception {
-		AssetAllocation assetAllocation = new AssetAllocation();
-		AssetDAO assetDAO = new AssetDAOImpl();
-		EmployeeDao employeeDao = new EmployeeDaoImpl();
-		assetAllocation.setAllocationId(501);
 
-		assetAllocation.setAsset(assetDAO.getAssetById(102));
-		assetAllocation.setAssetId(assetDAO.getAssetById(102).getAssetId());
-
-		assetAllocation.setEmployee(employeeDao.getEmployeeById(101));
-
-		assetAllocation.setStatus("pending");
-		assetAllocation.setRemark("Alright");
-		assetAllocationService.request(assetAllocation);
-
-		assertEquals(assetAllocationService.findById(501).getAllocationId(), 501);
+		assertEquals(assetAllocationService.findById(1205).getAllocationId(), 1205);
 	}
 
 	@Test
@@ -65,26 +48,16 @@ public class AssetAllocationTest {
 	}
 
 	@Test
-	public void testRequest() throws AllocationException {
+	public void testRequest() throws Exception {
 
 		AssetAllocation assetAllocation = new AssetAllocation();
 
-		assetAllocation.setAllocationId(100);
+		assetAllocation.setAllocationId(5560);
 
-		Asset asset = new Asset();
-		asset.setAssetId(533);
-		asset.setAssetName("Laptops");
-		asset.setAssetDes("laptops required for additional interns");
-		asset.setStatus("allocated");
+		assetAllocation.setAssetId(101);
+		assetAllocation.setAsset(new AssetServiceImpl().getAssetById(101));
 
-		assetAllocation.setAssetId(asset.getAssetId());
-		assetAllocation.setAsset(asset);
-
-		Employee employee = new Employee();
-		employee.setDepartment("Networks");
-		employee.setEmpName("Mayuresh");
-		employee.setEmpNo(2344);
-		assetAllocation.setEmployee(employee);
+		assetAllocation.setEmployee(new EmployeeServiceImpl().getEmployeeById(102));
 
 		assetAllocation.setStatus("rejected");
 		assetAllocation.setRemark("scrambling resources");
@@ -92,7 +65,7 @@ public class AssetAllocationTest {
 		// Call request function of the AssetAllocationDAO
 		assetAllocationService.request(assetAllocation);
 
-		assertEquals(assetAllocationService.findById(100) instanceof AssetAllocation, true);
+		assertEquals(assetAllocationService.findById(5560) instanceof AssetAllocation, true);
 	}
 
 	@Test
@@ -106,20 +79,35 @@ public class AssetAllocationTest {
 		}
 	}
 
-	@Test(expected=IllegalArgumentException.class)
-	//Check exception thrown for invalid status
+	@Test(expected = IllegalArgumentException.class)
+	// Check exception thrown for invalid status
 	public void testAllocationStatusException() throws AllocationException {
 		assetAllocationService.changeStatus(1205, "accept", "This is for record");
 	}
 
-	@Test(expected=AllocationException.class)
-	//Check exception thrown for invalid allocationId
+	@Test(expected = AllocationException.class)
+	// Check exception thrown for invalid allocationId
 	public void testChangeStatusException() throws AllocationException {
 		assetAllocationService.changeStatus(11205, "approved", "This is for record");
 	}
-	
-	@Test(expected=AllocationException.class)
-	public void findByIdAllocationException() throws AllocationException{
+
+	@Test(expected = AllocationException.class)
+	// Check exception for findById
+	public void findByIdAllocationException() throws AllocationException {
 		assetAllocationService.findById(788);
+	}
+
+	@Test(expected = AllocationException.class)
+	// Check if request already exists or not
+	public void checkRequestExceptionAllocationExists() throws Exception {
+		AssetAllocation assetAllocation = new AssetAllocation();
+		assetAllocation.setAllocationId(1205);
+		assetAllocation.setAsset(new AssetServiceImpl().getAssetById(102));
+		assetAllocation.setAssetId(102);
+		assetAllocation.setEmployee(new EmployeeServiceImpl().getEmployeeById(101));
+		assetAllocation.setStatus("pending");
+		assetAllocation.setRemark("hmmm");
+
+		assetAllocationService.request(assetAllocation);
 	}
 }

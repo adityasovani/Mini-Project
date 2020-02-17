@@ -246,6 +246,7 @@ public class Client {
 									assetAllocationService.findById(keyFind).getEmployee().getEmpName(),
 									assetAllocationService.findById(keyFind).getStatus(),
 									assetAllocationService.findById(keyFind).getRemark());
+							table3.print();
 						} catch (AllocationException e) {
 							System.out.println("AllocationId does not exist.");
 						}

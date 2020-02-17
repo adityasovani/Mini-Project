@@ -15,7 +15,7 @@ public class AssetAllocationServiceImpl implements AssetAllocationService{
 		assetAllocationDao.changeStatus(assetId, status, remark);
 	}
 
-	public void request(AssetAllocation assetAllocation) {
+	public void request(AssetAllocation assetAllocation) throws AllocationException {
 		assetAllocationDao.request(assetAllocation);
 	}
 

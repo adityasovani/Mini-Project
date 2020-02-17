@@ -86,8 +86,11 @@ public class AssetAllocationDAOImpl implements AssetAllocationDAO {
 	}
 
 	// REQUEST for asset
-	public void request(AssetAllocation assetAllocation) {
-		allocations.put(assetAllocation.getAllocationId(), assetAllocation);
+	public void request(AssetAllocation assetAllocation) throws AllocationException {
+		if (allocations.containsKey(assetAllocation.getAllocationId())) 
+			throw new AllocationException("Allocation Already Pending.");
+		else
+			allocations.put(assetAllocation.getAllocationId(), assetAllocation);
 	}
 
 	// FIND ALOCATION by id
