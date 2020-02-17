@@ -8,6 +8,7 @@ import java.util.HashMap;
 import java.util.Map;
 import com.cg.bean.Asset;
 import com.cg.exception.AssetException;
+import com.cg.resources.TableList;
 
 public class AssetDAOImpl implements AssetDAO {
 
@@ -86,29 +87,30 @@ public class AssetDAOImpl implements AssetDAO {
 		asset = new Asset();
 
 		System.out.println("ALLOCATED ASSETS\n");
-		System.out.println("AssetID\tAssetName\tAssetDes\tAssetStatus");
+		TableList table = new TableList(3, "AssetID", "AssetName", "AssetDes");
 
 		for (Integer key : assets.keySet()) {
 
 			asset = assets.get(key);
 			if (asset.getStatus().equals("allocated"))
-				System.out.println(asset.getAssetId() + "\t" + asset.getAssetName() + "\t" + asset.getAssetDes() + "\t"
-						+ asset.getStatus());
+				table.addRow(Integer.toString(assets.get(key).getAssetId()), assets.get(key).getAssetName(),
+						assets.get(key).getAssetDes());
 
 		}
 
+		table.print();
+
 		System.out.println("\nUNALLOCATED ASSETS\n");
-		System.out.println("AssetID\tAssetName\tAssetDes\tAssetStatus");
+		TableList table1 = new TableList(3, "AssetID", "AssetName", "AssetDes");
 
 		for (Integer key1 : assets.keySet()) {
 
 			asset = assets.get(key1);
 			if (asset.getStatus().equals("unallocated"))
-				System.out.println(asset.getAssetId() + "\t" + asset.getAssetName() + "\t\t" + asset.getAssetDes()
-						+ "\t" + asset.getStatus());
-
+				table1.addRow(Integer.toString(assets.get(key1).getAssetId()), assets.get(key1).getAssetName(),
+						assets.get(key1).getAssetDes());
 		}
-
+		table1.print();
 	}
 
 	public void export(String fileName) throws IOException {
