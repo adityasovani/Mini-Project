@@ -1,6 +1,5 @@
 package com.cg.dao;
 
-import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.Writer;
@@ -118,9 +117,7 @@ public class AssetDAOImpl implements AssetDAO {
 	// Export to CSV. Filename accepted from user
 	public void export(String fileName) throws IOException {
 		Writer write = new FileWriter(fileName + ".csv", true);
-		File file = new File(fileName + ".csv");
-		if (!file.exists())
-			write.write("AssetId,AssetName,AssetDes,AssetStatus\n");
+		write.write("AssetId,AssetName,AssetDes,AssetStatus\n");
 		for (Integer key : assets.keySet()) {
 			asset = assets.get(key);
 			write.write(key + "," + asset.getAssetName() + "," + asset.getAssetDes() + "," + asset.getStatus() + "\n");

@@ -77,10 +77,17 @@ public class Client {
 					int ch = scanner.nextInt();
 					switch (ch) {
 					case 1: // Add asset
-						System.out.println("Enter asset id, asset name, asset des, and asset status:");
+						System.out.println("Enter asset id:");
+						int assetId = scanner.nextInt();
+						System.out.println("Enter assetName:");
+						String assetName = scanner.next();
+						System.out.println("Enter asset description: ");
+						String assetDes = scanner.next();
+						System.out.println("Enter asset status");
+						String assetStatus = scanner.next();
 						try {
-							asset = assetService.addAsset(scanner.nextInt(), scanner.next(), scanner.next(),
-									scanner.next());
+							asset = assetService.addAsset(assetId, assetName, assetDes,
+									assetStatus);
 						} catch (IllegalArgumentException e) {
 							System.out.println("Status can be allocated or unallocated.");
 						}

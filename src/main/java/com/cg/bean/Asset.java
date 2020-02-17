@@ -4,7 +4,6 @@ public class Asset {
 	private int assetId;
 	private String assetName;
 	private String assetDes;
-	private int quantity;
 	private String status;
 
 	public int getAssetId() {
@@ -29,14 +28,6 @@ public class Asset {
 
 	public void setAssetDes(String assetDes) {
 		this.assetDes = assetDes;
-	}
-
-	public int getQuantity() {
-		return quantity;
-	}
-
-	public void setQuantity(int quantity) {
-		this.quantity = quantity;
 	}
 
 	public String getStatus() {
