@@ -5,6 +5,7 @@ import static org.junit.Assert.*;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.junit.Before;
 import org.junit.Test;
 
 import com.cg.bean.AssetAllocation;
@@ -16,15 +17,23 @@ import com.cg.service.EmployeeServiceImpl;
 
 public class AssetAllocationTest {
 
-	private AssetAllocationService assetAllocationService = new AssetAllocationServiceImpl();
+	private AssetAllocationService assetAllocationService;
+	
+	@Before
+	//Initialize
+	public void initialize() {
+		assetAllocationService = new AssetAllocationServiceImpl();
+	}
 
 	@Test
+	//check check status function
 	public void testChangeStatus() throws AllocationException {
 		assetAllocationService.changeStatus(1205, "rejected", "Insufficient  privilages");
 		assertEquals("rejected", assetAllocationService.findById(1205).getStatus());
 	}
 
 	@Test
+	//Check findAll function
 	public void testFindAll() {
 		List<AssetAllocation> allocs = assetAllocationService.findAll();
 
@@ -32,6 +41,7 @@ public class AssetAllocationTest {
 	}
 
 	@Test
+	//test findById
 	public void testFindById() throws Exception {
 
 		assertEquals(assetAllocationService.findById(1205).getAllocationId(), 1205);

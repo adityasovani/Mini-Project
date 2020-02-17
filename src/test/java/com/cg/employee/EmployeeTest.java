@@ -5,6 +5,7 @@ import static org.junit.Assert.assertEquals;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.junit.Before;
 import org.junit.Test;
 
 import com.cg.bean.Employee;
@@ -14,9 +15,16 @@ import com.cg.service.EmployeeServiceImpl;
 
 public class EmployeeTest {
 
-	EmployeeService employeeService = new EmployeeServiceImpl();
-	Employee employee = employeeService.addEmp(104, "Sameer", "Statistics");
+	EmployeeService employeeService;
+	private Employee employee;
 
+	@Before
+	//Initialize
+	public void initialize() {
+		employeeService = new EmployeeServiceImpl();
+		employee = employeeService.addEmp(104, "Sameer", "Statistics");
+	}
+	
 	@Test
 	//Test to check existence of employee
 	public void testEmpExists() throws EmployeeException {

@@ -117,7 +117,7 @@ public class Client {
 						break;
 
 					case 4: // Export
-						System.out.println("Enter file name: ");
+						System.out.println("Enter file name to export: ");
 						try {
 							assetService.export(scanner.next());
 						} catch (Exception e) {
