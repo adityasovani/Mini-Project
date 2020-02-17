@@ -20,7 +20,7 @@ public class AssetDAOImpl implements AssetDAO {
 
 		asset.setAssetId(101);
 		asset.setAssetName("Laptops");
-		asset.setAssetDes("abcdefghijkl");
+		asset.setAssetDes("For new interns");
 		asset.setStatus("allocated");
 
 		assets.put(asset.getAssetId(), asset);
@@ -29,7 +29,7 @@ public class AssetDAOImpl implements AssetDAO {
 
 		asset1.setAssetId(102);
 		asset1.setAssetName("PC");
-		asset1.setAssetDes("mnopqrs");
+		asset1.setAssetDes("High performing");
 		asset1.setStatus("unallocated");
 
 		assets.put(asset1.getAssetId(), asset1);
@@ -37,8 +37,8 @@ public class AssetDAOImpl implements AssetDAO {
 		Asset asset2 = new Asset();
 
 		asset2.setAssetId(103);
-		asset2.setAssetName("WI-FI");
-		asset2.setAssetDes("tuvwxyz");
+		asset2.setAssetName("WI-FI Router");
+		asset2.setAssetDes("70 Mbps bandwidth");
 		asset2.setStatus("allocated");
 
 		assets.put(asset2.getAssetId(), asset2);

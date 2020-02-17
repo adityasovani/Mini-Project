@@ -1,13 +1,12 @@
 package com.cg.client;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Scanner;
 
 import com.cg.bean.Asset;
 import com.cg.bean.AssetAllocation;
 import com.cg.bean.Employee;
 import com.cg.bean.User;
+import com.cg.resources.TableList;
 import com.cg.service.AssetAllocationService;
 import com.cg.service.AssetAllocationServiceImpl;
 import com.cg.service.AssetService;
@@ -101,37 +100,40 @@ public class Client {
 						break;
 
 					case 5: // View requests
-						List<AssetAllocation> requests = assetAllocationService.findAll();
+						TableList table = new TableList(8, "AllocationId", "AssetId", "AssetName", "AssetStatus",
+								"EmpNo", "EmpName", "RequestStatus", "Remark");
 
-						for (int i = 0; i < requests.size(); i++) {
-							System.out.println("--------------------------------");
-							System.out.println(requests.get(i).getAllocationId());
-							System.out.println(requests.get(i).getAsset().getAssetId());
-							System.out.println(requests.get(i).getAsset().getAssetName());
-							System.out.println(requests.get(i).getAsset().getAssetDes());
-							System.out.println(requests.get(i).getEmployee().getEmpNo());
-							System.out.println(requests.get(i).getEmployee().getEmpName());
-							System.out.println(requests.get(i).getRemark());
-							System.out.println(requests.get(i).getStatus());
-							System.out.println("--------------------------------");
+						for (int i = 0; i < assetAllocationService.findAll().size(); i++) {
+							table.addRow(Integer.toString(assetAllocationService.findAll().get(i).getAllocationId()),
+									Integer.toString(assetAllocationService.findAll().get(i).getAsset().getAssetId()),
+									assetAllocationService.findAll().get(i).getAsset().getAssetName(),
+									assetAllocationService.findAll().get(i).getAsset().getStatus(),
+									Integer.toString(assetAllocationService.findAll().get(i).getEmployee().getEmpNo()),
+									assetAllocationService.findAll().get(i).getEmployee().getEmpName(),
+									assetAllocationService.findAll().get(i).getStatus(),
+									assetAllocationService.findAll().get(i).getRemark());
 						}
+						table.print();
 						break;
 					case 6: // View Pending
-						List<AssetAllocation> pending = new ArrayList<AssetAllocation>();
 
 						System.out.println("PENDING REQUESTS");
-						System.out.println("AllocationID\tAssetID\tAssetName\tEmployeeId\tEmployeeName\tRemark");
+
+						TableList table1 = new TableList(8, "AllocationId", "AssetId", "AssetName", "AssetStatus",
+								"EmpNo", "EmpName", "RequestStatus", "Remark");
+
 						for (int i = 0; i < assetAllocationService.findPending().size(); i++) {
-							pending.add(assetAllocationService.findPending().get(i));
-							System.out.println(assetAllocationService.findPending().get(i).getAllocationId() + "\t"
-									+ assetAllocationService.findPending().get(i).getAsset().getAssetId() + "\t"
-									+ assetAllocationService.findPending().get(i).getAsset().getAssetName() + "\t"
-									+ assetAllocationService.findPending().get(i).getEmployee().getEmpNo() + "\t"
-									+ assetAllocationService.findPending().get(i).getEmployee().getEmpName() + "\t"
-									+ assetAllocationService.findPending().get(i).getRemark());
+
+							table1.addRow(Integer.toString(assetAllocationService.findAll().get(i).getAllocationId()),
+									Integer.toString(assetAllocationService.findAll().get(i).getAsset().getAssetId()),
+									assetAllocationService.findAll().get(i).getAsset().getAssetName(),
+									assetAllocationService.findAll().get(i).getAsset().getStatus(),
+									Integer.toString(assetAllocationService.findAll().get(i).getEmployee().getEmpNo()),
+									assetAllocationService.findAll().get(i).getEmployee().getEmpName(),
+									assetAllocationService.findAll().get(i).getStatus(),
+									assetAllocationService.findAll().get(i).getRemark());
 						}
 
-						// assetAllocationService.findPending();
 						break;
 					case 7: // Change status
 						System.out.println("Enter AllocationId, Status and Remark");
@@ -197,48 +199,48 @@ public class Client {
 						break;
 
 					case 2: // View status
+
+						TableList table3 = new TableList(7, "AllocationID", "AssetID", "AssetName", "EmpNo", "EmpName",
+								"Status", "Remark");
+
 						System.out.println("Enter Allocation id to locate: ");
 						int keyFind = scanner.nextInt();
-						AssetAllocation asaloc = assetAllocationService.findById(keyFind);
-						System.out.println("---------------------------");
-						System.out.println("AllocationID: " + asaloc.getAllocationId());
-						System.out.println("AssetId: " + asaloc.getAsset().getAssetId());
-						System.out.println("AssetName: " + asaloc.getAsset().getAssetName());
-						System.out.println("AssetDes" + asaloc.getAsset().getAssetDes());
-						System.out.println("Employee Number" + asaloc.getEmployee().getEmpNo());
-						System.out.println("Employee Name" + asaloc.getEmployee().getEmpName());
-						System.out.println("Request status: " + asaloc.getStatus());
-						System.out.println("Remark: " + asaloc.getRemark());
 
-						System.out.println("---------------------------");
+						table3.addRow(Integer.toString(assetAllocationService.findById(keyFind).getAllocationId()),
+								Integer.toString(assetAllocationService.findById(keyFind).getAsset().getAssetId()),
+								assetAllocationService.findById(keyFind).getAsset().getAssetName(),
+								Integer.toString(assetAllocationService.findById(keyFind).getEmployee().getEmpNo()),
+								assetAllocationService.findById(keyFind).getEmployee().getEmpName(),
+								assetAllocationService.findById(keyFind).getStatus(),
+								assetAllocationService.findById(keyFind).getRemark()
+								);
+
 						break;
 					case 3: // View All Request
-						List<AssetAllocation> allocationList = assetAllocationService.findAll();
+						TableList table = new TableList(8, "AllocationId", "AssetId", "AssetName", "AssetStatus",
+								"EmpNo", "EmpName", "RequestStatus", "Remark");
 
-						for (int i = 0; i < allocationList.size(); i++) {
-							assetAllocation = allocationList.get(i);
-							System.out.println("AllocationId: " + assetAllocation.getAllocationId());
-							System.out.println("AssetId: " + assetAllocation.getAsset().getAssetId());
-							System.out.println("AssetName: " + assetAllocation.getAsset().getAssetName());
-							System.out.println("AssetDescription: " + assetAllocation.getAsset().getAssetDes());
-							System.out.println("EmployeeNo: " + assetAllocation.getEmployee().getEmpNo());
-							System.out.println("EmployeeName: " + assetAllocation.getEmployee().getEmpName());
-							System.out.println("Allocation Status: " + assetAllocation.getStatus());
-							System.out.println("Remark: " + assetAllocation.getRemark());
-							System.out.println("---------------------------");
+						for (int i = 0; i < assetAllocationService.findAll().size(); i++) {
+							table.addRow(Integer.toString(assetAllocationService.findAll().get(i).getAllocationId()),
+									Integer.toString(assetAllocationService.findAll().get(i).getAsset().getAssetId()),
+									assetAllocationService.findAll().get(i).getAsset().getAssetName(),
+									assetAllocationService.findAll().get(i).getAsset().getStatus(),
+									Integer.toString(assetAllocationService.findAll().get(i).getEmployee().getEmpNo()),
+									assetAllocationService.findAll().get(i).getEmployee().getEmpName(),
+									assetAllocationService.findAll().get(i).getStatus(),
+									assetAllocationService.findAll().get(i).getRemark());
 						}
-
+						table.print();
 						break;
 					case 4: // View all employees
-						List<Employee> employees = new ArrayList<Employee>();
 
-						System.out.println("ID\tName\tDepartment");
+						TableList table2 = new TableList(3, "Id", "Name", "Department");
 						for (int i = 0; i < employeeService.viewAllEmployees().size(); i++) {
-							employees.add(employeeService.viewAllEmployees().get(i));
-							System.out.println(employees.get(i).getEmpNo() + "\t" + employees.get(i).getEmpName() + "\t"
-									+ employees.get(i).getDepartment());
+							table2.addRow(Integer.toString(employeeService.viewAllEmployees().get(i).getEmpNo()),
+									employeeService.viewAllEmployees().get(i).getEmpName(),
+									employeeService.viewAllEmployees().get(i).getDepartment());
 						}
-
+						table2.print();
 						break;
 					case 5: // Add Employee
 						System.out.println("Enter Employee Id, Name and Department: ");
@@ -252,7 +254,7 @@ public class Client {
 					case 7: // Log Out
 						break manager;
 					default:
-						break;
+						System.err.println("Wrong choice. Please try again");
 					}
 				} while (isLoggedIn);
 
@@ -263,7 +265,7 @@ public class Client {
 				System.out.println("Exit");
 				System.exit(0);
 			default:
-				break;
+				System.err.println("Wrong choice. Please try again");
 			}
 		} while (true);
 
