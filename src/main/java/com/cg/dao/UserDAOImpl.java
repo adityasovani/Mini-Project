@@ -32,7 +32,7 @@ public class UserDAOImpl implements UserDAO {
 	//Login
 	public User login(String userName, String userPassWord) throws UserException {
 		boolean found = false;
-
+		
 		User user = new User();
 
 		for (int key : users.keySet()) {
@@ -42,6 +42,7 @@ public class UserDAOImpl implements UserDAO {
 				break;
 			}
 		}
+		
 		//Throw exception upon wrong credentials
 		if (!found)
 			throw new UserException();
