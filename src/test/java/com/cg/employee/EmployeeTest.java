@@ -15,7 +15,7 @@ import com.cg.service.EmployeeServiceImpl;
 
 public class EmployeeTest {
 
-	EmployeeService employeeService;
+	private EmployeeService employeeService;
 	private Employee employee;
 
 	@Before

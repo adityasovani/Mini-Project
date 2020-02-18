@@ -5,6 +5,7 @@ import static org.junit.Assert.*;
 import java.io.File;
 import java.io.IOException;
 
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -16,11 +17,12 @@ import com.cg.service.AssetServiceImpl;
 public class AssetTest {
 
 	AssetService assetService;
-
+	File file;
 	@Before
 	//Initialize
 	public void initialize() {
 		assetService = new AssetServiceImpl();
+		file = new File("aditya.csv");
 	}
 
 	@Test
@@ -40,7 +42,6 @@ public class AssetTest {
 
 		assetService.export("aditya");
 
-		File file = new File("aditya.csv");
 		assertEquals(file.exists(), true);
 
 	}
@@ -80,5 +81,11 @@ public class AssetTest {
 	//Test exception thrown after entering wrong id.
 	public void testAssetIdUpdateException() throws Exception {
 		assetService.updateAsset(1008, "Mixer", "To mix", "allocated");
+	}
+	
+	@After
+	//Delete file created for test
+	public void clean() {
+		file.delete();
 	}
 }
